@@ -25,10 +25,15 @@ public class WordSearchFragment extends Fragment {
         wordSearch = (GridView) view.findViewById(R.id.word_search);
         wordBank = (GridView) view.findViewById(R.id.word_bank);
 
-        wordSearch.setAdapter(new WordSearchAdapter(super.getActivity()));
-        // TODO: Fix error with WordBankAdapter not converting to listAdapter.
-        // Change from WordSearchAdapter to WordBankAdapter after fixing.
-        wordBank.setAdapter(new WordSearchAdapter(super.getActivity()));
+        // added to allow the two to communicate between each other
+        WordSearchAdapter wsa = new WordSearchAdapter(super.getActivity());
+        WordBankAdapter wba = new WordBankAdapter(super.getActivity());
+        wsa.setWordBankAdapter(wba);
+        wba.setWordSearchAdapter(wsa);
+
+        wordSearch.setAdapter(wsa);
+        wordBank.setAdapter(wba);
+        wordBank.setColumnWidth(wordBank.getWidth() / 2);
 
 
         wordSearch.setOnItemClickListener(null);
