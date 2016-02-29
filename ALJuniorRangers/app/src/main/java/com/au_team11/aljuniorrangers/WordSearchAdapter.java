@@ -10,20 +10,26 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by Zac on 1/31/2016.
  */
 public class WordSearchAdapter extends BaseAdapter {
-    private String[] words = {"TREE", "MAPLE", "LEAF", "CHEWACLA"};
-    private int wordsLeft = words.length;
-    private ArrayList<TextView> currentGuess = new ArrayList<TextView>();
+    // words and wordsLeft are now in WordBankAdapter
+//    private String[] words;
+//    private int wordsLeft;
+    private ArrayList<TextView> currGuess = new ArrayList<TextView>();
     private Context ctx;
-    private Direction dir = null;
-    // 240 horizontal spacing
-    // 190 vertical spacing
-    private String[] letters = {
+    // dir now assigned value in constructor
+    private Direction dir;
+    // wordBank added to connect the two
+    private WordBankAdapter wordBank;
+    // added to know the x and y dist between two letters
+    private int horzSpac;
+    private int vertSpac;
+    // row number: index / 6
+    // column number: index % 6
+    private String[] grid = {
             "T", "M", "C", "D", "E", "F",
             "R", "B", "A", "D", "E", "F",
             "E", "B", "C", "P", "E", "F",
@@ -38,16 +44,15 @@ public class WordSearchAdapter extends BaseAdapter {
             "A", "A", "C", "D", "E", "F"
     };
 
-    // row number: index / 6
-    // column number: index % 6
-    private TextView[] grid = new TextView[letters.length];
-
     public WordSearchAdapter(Context contextIn) {
         ctx = contextIn;
+//        words = ctx.getResources().getStringArray(R.array.word_bank_1);
+//        wordsLeft = words.length;
+        dir = null;
     }
 
     public int getCount() {
-        return letters.length;
+        return grid.length;
     }
 
     public Object getItem(int position) {
@@ -56,6 +61,11 @@ public class WordSearchAdapter extends BaseAdapter {
 
     public long getItemId(int position) {
         return 0;
+    }
+
+    public void setWordBankAdapter(WordBankAdapter wba)
+    {
+        wordBank = wba;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -68,7 +78,7 @@ public class WordSearchAdapter extends BaseAdapter {
         }
 
         tv.setTypeface(Typeface.DEFAULT_BOLD);
-        tv.setText(letters[position]);
+        tv.setText(grid[position]);
         tv.setTextColor(Color.BLACK);
         tv.setOnTouchListener(new TextTouchListener());
 
@@ -76,56 +86,35 @@ public class WordSearchAdapter extends BaseAdapter {
     }
 
     /**
-     * Checks to see if current highlighted letters make a
-     * valid word.
+     * Checks to see if currGuess contains a word.
      */
     public void checkGuess()
     {
         // Check that guess is of a valid length
-        if (currentGuess.size() > 1)
+        if (currGuess.size() > 1)
         {
             String guess = "";
             // Pull word from TextViews
-            for (TextView tv : currentGuess)
+            for (TextView tv : currGuess)
                 guess += tv.getText();
             // Compare guess to each word to see if there's a match
-            for (int i = 0; i < words.length; i++) {
-                String s = words[i];
-                // If there is a match
-                if (s.equals(guess)) {
-                    // TODO: Print out that user found word
 
-                    // Set letters so that they are locked from being touched
-                    for (TextView tv : currentGuess) {
-                        tv.setTextColor(Color.GREEN);
-                        tv.setOnTouchListener(null);
-                    }
-
-                    // Empty guess list and set direction to null
-                    currentGuess = new ArrayList<TextView>();
-                    dir = null;
-
-                    // Remove word from word bank
-                    words[i] = words[words.length - 1];
-                    words = Arrays.copyOf(words, words.length - 1);
-                    wordsLeft = words.length;
-
-                    // See if the user finished
-                    // TODO: checkWin();
+            // if curGuess contains a valid word
+            if (wordBank.guess(guess))
+            {
+                // mark word as green
+                for (TextView tv : currGuess) {
+                    tv.setTextColor(Color.GREEN);
+                    // Going to modify listener to add an if Color.GREEN section
+//                    tv.setOnTouchListener(null);
                 }
+
+                // Reset currGuess and dir
+                currGuess = new ArrayList<TextView>();
+                dir = null;
             }
         }
     }
-
-    /* TODO
-    public void checkWin()
-    {
-        if(wordsLeft == 0)
-            System.out.println("Congratulations, you won the word search!");
-        else
-            System.out.println("Doing great! You've got " + wordsLeft + " words left.");
-    }
-    */
 
     /**
      * Touch listener which allows a letter to be pressed.
@@ -137,81 +126,96 @@ public class WordSearchAdapter extends BaseAdapter {
         public boolean onTouch(View v, MotionEvent event)
         {
             // If a letter is touched
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN)
+            {
                 // Record it
                 TextView tv = (TextView) v;
 
                 /*
-                    If it is black, turn it blue and add the letter
-                    to the guess list and see if the new guess list
-                    is a valid word
+                Touch is handled based on the letter's color.
+                If it's black/green: if it follows the current direction, the color is changed
+                to blue/red.
+                If it's blue/red: if it was the last letter guessed, the color is changed to
+                black/green.
                  */
-                if (tv.getCurrentTextColor() == Color.BLACK)
+                switch(tv.getCurrentTextColor())
                 {
-                    // if second letter
-                    if (currentGuess.size() == 1)
-                    {
-                        TextView temp = currentGuess.get(currentGuess.size() - 1);
-
-                        int xSpacing = Math.abs(temp.getLeft() - tv.getLeft());
-                        int ySpacing = Math.abs(temp.getTop() - tv.getTop());
-
-                        // set direction
-                        if (xSpacing == 0)
-                            dir = Direction.vertical;
-                        else if (ySpacing == 0)
-                            dir = Direction.horizontal;
-                        else
-                            dir = Direction.diagonal;
-
-                        tv.setTextColor(Color.BLUE);
-                        currentGuess.add(tv);
-                    }
-                    // if third or later letter
-                    else if (currentGuess.size() >= 2)
-                    {
-                        TextView temp = currentGuess.get(currentGuess.size() - 1);
-
-                        int xSpacing = Math.abs(temp.getLeft() - tv.getLeft());
-                        int ySpacing = Math.abs(temp.getTop() - tv.getTop());
-
-                        // check number is in same direction
-                        if ((xSpacing == 0 && dir == Direction.vertical) || (ySpacing == 0 && dir == Direction.horizontal)
-                                || (xSpacing > 0 && ySpacing > 0 && dir == Direction.diagonal))
+                    // if the letter hasn't already been selected
+                    case Color.GREEN:
+                    case Color.BLACK:
+                        // if second letter
+                        if (currGuess.size() == 1)
                         {
-                            tv.setTextColor(Color.BLUE);
-                            currentGuess.add(tv);
+                            TextView temp = currGuess.get(currGuess.size() - 1);
+
+                            int xSpacing = Math.abs(temp.getLeft() - tv.getLeft());
+                            int ySpacing = Math.abs(temp.getTop() - tv.getTop());
+
+                            // set direction
+                            if (xSpacing == 0)
+                                dir = Direction.vertical;
+                            else if (ySpacing == 0)
+                                dir = Direction.horizontal;
+                            else
+                                dir = Direction.diagonal;
+
+                            if (tv.getCurrentTextColor() == Color.BLACK)
+                                tv.setTextColor(Color.BLUE);
+                            else
+                                tv.setTextColor(Color.RED);
+                            currGuess.add(tv);
+                        }
+                        // if third or later letter
+                        else if (currGuess.size() >= 2)
+                        {
+                            TextView temp = currGuess.get(currGuess.size() - 1);
+
+                            int xSpacing = Math.abs(temp.getLeft() - tv.getLeft());
+                            int ySpacing = Math.abs(temp.getTop() - tv.getTop());
+
+                            // check number is in same direction
+                            // TODO: This doesn't work if in same direction if >1 letter away. Fix it.
+                            if ((xSpacing == 0 && dir == Direction.vertical)
+                                    || (ySpacing == 0 && dir == Direction.horizontal)
+                                    || (xSpacing > 0 && ySpacing > 0 && dir == Direction.diagonal))
+                            {
+                                if (tv.getCurrentTextColor() == Color.BLACK)
+                                    tv.setTextColor(Color.BLUE);
+                                else
+                                    tv.setTextColor(Color.RED);
+                                currGuess.add(tv);
+                                checkGuess();
+                            }
+                        }
+                        // if first letter
+                        else
+                        {
+                            if (tv.getCurrentTextColor() == Color.BLACK)
+                                tv.setTextColor(Color.BLUE);
+                            else
+                                tv.setTextColor(Color.RED);
+                            currGuess.add(tv);
                             checkGuess();
                         }
-                    }
-                    // if first letter
-                    else
-                    {
-                        tv.setTextColor(Color.BLUE);
-                        currentGuess.add(tv);
-                        checkGuess();
-                    }
-                }
+                        break;
+                    // if the letter has already been selected
+                    case Color.BLUE:
+                    case Color.RED:
+                        TextView temp = currGuess.get(currGuess.size() - 1);
+                        if (tv.getLeft() == temp.getLeft() &&
+                                tv.getTop() == temp.getTop())
+                        {
+                            if (tv.getCurrentTextColor() == Color.BLUE)
+                                tv.setTextColor(Color.BLACK);
+                            else
+                                tv.setTextColor(Color.GREEN);
+                            currGuess.remove(currGuess.size() - 1);
+                        }
 
-                /*
-                    If it is blue, make sure it's the last letter selected
-                    (this way no disconnected letter groupings happen), if
-                    it is, then turn it black and remove it from the guess
-                    list.
-                 */
-                else if (tv.getCurrentTextColor() == Color.BLUE)
-                {
-                    TextView temp = currentGuess.get(currentGuess.size() - 1);
-                    if (tv.getLeft() == temp.getLeft() &&
-                            tv.getTop() == temp.getTop())
-                    {
-                        // System.out.println(tv.getText() + " deselected");
-                        tv.setTextColor(Color.BLACK);
-                        currentGuess.remove(currentGuess.size() - 1);
-                    }
-
-                    if (currentGuess.size() == 0)
-                        dir = null;
+                        // changed from "== 0" to "== 1"
+                        if (currGuess.size() == 1)
+                            dir = null;
+                        break;
                 }
             }
             return true;
