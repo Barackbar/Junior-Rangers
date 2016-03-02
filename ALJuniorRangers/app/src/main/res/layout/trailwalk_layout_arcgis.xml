@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.esri.android.map.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        mapoptions.MapType="Streets"
+        mapoptions.center="32.601539, -85.489712"
+        mapoptions.ZoomLevel="4">
+    </com.esri.android.map.MapView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/popupAnchor"
+        android:layout_alignParentBottom="true"
+        android:visibility="invisible"
+        android:layout_alignParentLeft="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="60sp"
+        android:id="@+id/ActionButtonPopupContainer"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#9f000000">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Default Text"
+                android:id="@+id/ActionButtonPopup"
+                android:gravity="center_horizontal"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:clickable="true" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
