@@ -2,6 +2,7 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.esri.core.geometry.Point;
 

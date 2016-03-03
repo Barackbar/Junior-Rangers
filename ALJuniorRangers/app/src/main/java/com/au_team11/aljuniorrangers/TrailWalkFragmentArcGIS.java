@@ -2,6 +2,7 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -229,6 +232,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                         currentActionPoint.action();
                                     }
                                 });
+
                                 //make the container visible
                                 actionPointPopupContainer.setVisibility(View.VISIBLE);
                                 //record that the container is visible
