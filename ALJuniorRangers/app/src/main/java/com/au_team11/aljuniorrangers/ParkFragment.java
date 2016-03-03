@@ -61,14 +61,10 @@ public class ParkFragment extends Fragment {
         Log.i("ParkFragment", "onCreateView");
         View view = inflater.inflate(R.layout.park_layout, container, false);
 
-        String parkActivities = getArguments().getString("activities");
-        //TODO Do we really need this? Discuss what exactly will be passed between fragments, through bundle or intent. If bundles why not just use a JSONobject.toString and then delimit the string for the activities.
-
-
         //Instantiate Elements
         selectedActivity = "";
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        goButton=(Button) view.findViewById(R.id.GoButton);
+        goButton = (Button) view.findViewById(R.id.GoButton);
 
         // Spinner Drop Down Elements
         categories = new ArrayList<String>();
@@ -130,7 +126,6 @@ public class ParkFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray activitiesArray = jsonObject.getJSONArray("activities");
             sendArray = activitiesArray;
-
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -175,13 +170,6 @@ public class ParkFragment extends Fragment {
         if (filename == "") {
             //DO Some Error Reporting
         }
-
-        /*
-        //Package the filename in an intent and send to Main
-        Intent intent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-        intent.putExtra("toOpen", filename);
-        getActivity().startActivity(intent);
-        */
 
         //send the filename through a callback method
         mCallback.onParkActivitySelectedListener(filename, type);

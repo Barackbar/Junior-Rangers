@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class MainMenuFragment extends Fragment {
 
-    public static final String MAINMENU_DATA = "mainmenu_data.json";
+    public static final String MAINMENU_DATA = "mainmenu_data_demo_c1.json";
     public static final String PARKARRAY_KEY = "array";
     public static final String PARKNAME_KEY = "name";
     public static final String PARKFILE_KEY = "file";
@@ -117,7 +117,7 @@ public class MainMenuFragment extends Fragment {
                     for (int i = 0; i < parkJSONArray.length(); i++) {
                         //if this object's name matches the selected name
                         if (parkJSONArray.getJSONObject(i).getString(PARKNAME_KEY).equals(selectedItem)) {
-                            //callback to the main activity with the park data file to load
+                            //callback to the main activity with the name of the park data file to load
                             mCallback.onParkSelectedListener(parkJSONArray.getJSONObject(i).getString(PARKFILE_KEY));
                         }
                     }
