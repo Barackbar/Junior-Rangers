@@ -5,17 +5,28 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.LayoutInflater;
+import android.view.Gravity;
+import android.view.MenuItem;
+
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.util.Log;
-import java.lang.Object;
-import java.util.Arrays;
-import java.util.ArrayList;
-import android.graphics.Path.Direction;
+import android.widget.PopupWindow;
+import android.widget.Button;
 import android.widget.PopupMenu;
 import android.widget.Toast;
-import android.view.MenuItem;
+import android.widget.RadioGroup.LayoutParams;
+
+import android.util.Log;
+import java.util.Arrays;
+import java.util.ArrayList;
+
+import java.lang.Object;
+
+import android.graphics.Path.Direction;
+
+
 
 /**
  * Text Adapter class for the Word Bank
@@ -24,22 +35,27 @@ import android.view.MenuItem;
 public class TextAdapter2 extends BaseAdapter {
 
     private String[] words = {"TREE", "MAPLE", "LEAF", "CHEWACLA"};
-    private String[] xmlwords;
-    private int wordsLeft = words.length;
-    private ArrayList<TextView> currentGuess = new ArrayList<TextView>();
+    //private String[] xmlwords;
+    private String[] JSONwords;
+    private String[] wordInfo;
+    //private int wordsLeft = words.length;
+    //private ArrayList<TextView> currentGuess = new ArrayList<TextView>();
     private Context ctx;
     private Direction dir = null;
 
-    private TextView[] wordBank = new TextView[words.length];
 
-    public TextAdapter2(Context contextIn) {
+    //private TextView[] wordBank = new TextView[JSONwords.length];
+
+    public TextAdapter2(Context contextIn, String[] wordBankIn, String[] wordInfoIn) {
 
         ctx = contextIn;
-        xmlwords = ctx.getResources().getStringArray(R.array.word_bank_1);
+        //xmlwords = ctx.getResources().getStringArray(R.array.word_bank_1);
+        JSONwords = wordBankIn;
+        wordInfo = wordInfoIn;
     }
 
     public int getCount() {
-        return words.length;
+        return JSONwords.length;
     }
 
     public Object getItem(int position) {
@@ -59,12 +75,20 @@ public class TextAdapter2 extends BaseAdapter {
             tv = (TextView) convertView;
         }
 
-        tv.setText(xmlwords[position]);
-        tv.setTextColor(Color.RED);
+        tv.setText(JSONwords[position]);
+        tv.setTextColor(Color.BLACK);
         tv.setOnTouchListener(new TextTouchListener());
 
         return tv;
     }
+
+    public void setWordBank(String[] wordBank){
+
+        JSONwords = wordBank;
+        return;
+    }
+
+
 
     /**
      * Touch listener which allows a word to be pressed.
@@ -79,20 +103,41 @@ public class TextAdapter2 extends BaseAdapter {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 TextView tv = (TextView) v;
                 //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(ctx, tv);
+                //PopupMenu popup = new PopupMenu(ctx, tv);
                 //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+                //popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+
+
+                LayoutInflater layoutInflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View popupView = layoutInflater.inflate(R.layout.popup_window, null);
+                TextView popupText = (TextView) popupView.findViewById(R.id.popuptv);
+
+                final PopupWindow popupWindow = new PopupWindow(
+                        popupView,
+                        LayoutParams.MATCH_PARENT,
+                        LayoutParams.MATCH_PARENT);
+
+                popupWindow.setSplitTouchEnabled(false);
+                popupWindow.setFocusable(true);
+                Button disButton = (Button)popupView.findViewById(R.id.disButton);
+                disButton.setOnClickListener(new Button.OnClickListener(){
+
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }});
 
                 Toast.makeText(ctx, "You Clicked : " + tv.getText(), Toast.LENGTH_SHORT).show();
 
                 //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return true;
-                    }
-                });
+                //popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                //    public boolean onMenuItemClick(MenuItem item) {
+                //        return true;
+                //    }
+                //});
 
-                popup.show(); //showing popup menu
+                popupWindow.showAtLocation(tv, Gravity.FILL, 10, 10); //showing popup menu
+
                 return true;
 
             }

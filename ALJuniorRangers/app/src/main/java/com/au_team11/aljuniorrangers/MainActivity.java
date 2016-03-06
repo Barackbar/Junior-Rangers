@@ -50,6 +50,10 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
 
             MainMenuFragment mainMenuFragment = new MainMenuFragment();
             fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
+            /*
+            WordSearchFragment wordSearchFragment = new WordSearchFragment();
+            fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragment).commit();
+            */
         }
 
     }
@@ -79,6 +83,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
 
     public void onParkActivitySelectedListener(String fileName, String type) {
 
+        //String type parameter correlates to park_data.json "type:"
         if (type.equals("trailwalk")) {
             trailWalkFragment = new TrailWalkFragment();
             Bundle arguments = new Bundle();
