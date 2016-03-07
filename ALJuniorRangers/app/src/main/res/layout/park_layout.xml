@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ffffff">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:text="Please Select Your Activity"
         android:id="@+id/ActivitySelectorText"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:textColor="#000000" />
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
