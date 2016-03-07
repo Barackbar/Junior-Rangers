@@ -82,7 +82,7 @@ public class ParkFragment extends Fragment {
             e.printStackTrace();
         }
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.mainmenu_spinner_textview, categories);
 
         //Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

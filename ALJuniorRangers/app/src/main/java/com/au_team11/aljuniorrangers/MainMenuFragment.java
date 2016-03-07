@@ -99,6 +99,8 @@ public class MainMenuFragment extends Fragment {
                                                             R.layout.mainmenu_spinner_textview,
                                                             spinnerStrings);
 
+            spinnerStringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
             //populate parkSpinner with elements in spinnerStringAdapter
             parkSpinner.setAdapter(spinnerStringAdapter);
         } catch (JSONException e) {

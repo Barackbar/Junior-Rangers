@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/my_frame"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#ffffff">
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -48,25 +49,33 @@
             android:id="@+id/answerA"
             android:checked="false"
             android:clickable="true"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:buttonTint="#000000"
+            android:textColor="#000000" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Answer 2"
-            android:id="@+id/answerB" />
+            android:id="@+id/answerB"
+            android:buttonTint="#000000"
+            android:textColor="#000000" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Answer 3"
-            android:id="@+id/answerC" />
+            android:id="@+id/answerC"
+            android:buttonTint="#000000"
+            android:textColor="#000000" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Answer 4"
-            android:id="@+id/answerD" />
+            android:id="@+id/answerD"
+            android:buttonTint="#000000"
+            android:textColor="#000000" />
 
         <Button
             android:layout_width="wrap_content"
@@ -87,7 +96,8 @@
             android:text="Incorrect Answer, Please Try Again"
             android:id="@+id/isCorrect"
             android:layout_gravity="center_horizontal|top"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:textColor="#000000" />
 
 
     </RadioGroup>
