@@ -7,7 +7,7 @@
         android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        mapoptions.MapType="Streets"
+        mapoptions.MapType="TOPO"
         mapoptions.center="32.601539, -85.489712"
         mapoptions.ZoomLevel="16">
     </com.esri.android.map.MapView>
