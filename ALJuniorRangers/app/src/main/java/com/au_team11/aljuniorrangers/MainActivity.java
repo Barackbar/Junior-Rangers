@@ -73,6 +73,13 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                            .addToBackStack(null)
                            .commit();
         }
+        else if (type.equals("animalparts")) {
+            InfoFragment infoFragment = new InfoFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.activity_main, infoFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
         else {
             //do nothing
         }

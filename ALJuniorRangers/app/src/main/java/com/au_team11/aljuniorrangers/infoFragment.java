@@ -22,7 +22,7 @@ import android.widget.Toast;
 /**
  * Created by Jon on 2/14/2016.
  */
-public class infoFragment extends Fragment{
+public class InfoFragment extends Fragment{
 
     Button quizButton, submitButton, exitQuizButton;
     private String metflightCode = null;
@@ -33,7 +33,7 @@ public class infoFragment extends Fragment{
     ImageView pictureImage, hitbox1, hitbox2, hitbox3;
 
 
-    public infoFragment() {
+    public InfoFragment() {
 
     }
 
