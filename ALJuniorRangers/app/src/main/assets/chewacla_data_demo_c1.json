@@ -12,9 +12,9 @@
       "type":"wordsearch"
     },
     {
-      "name":"Activity C",
-      "filename":"notReal.json",
-      "type":"notReal"
+      "name":"Animal Parts",
+      "filename":"animalparts_data_demo_c1.json",
+      "type":"animalparts"
     }
   ]
 }
