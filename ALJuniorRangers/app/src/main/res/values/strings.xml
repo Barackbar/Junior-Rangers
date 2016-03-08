@@ -4,8 +4,8 @@
     <string name="AssetBundleKey">assetBundleKey</string>
 
     <string name="MainMenuTitleText">Alabama Junior Rangers</string>
-    <string name="ParkSelectionGuideText">Choose your Park</string>
-    <string name="ParkSelectorText">Choose your activity</string>
+    <string name="ParkSelectionGuideText">Select Your Park Below</string>
+    <string name="ParkSelectorText">Go!</string>
 
     <string name="pop_up_test_info">Test information for a word bank \n pop up word.</string>
     <string name="pop_up_word_found">You\'ve already found this word!</string>
