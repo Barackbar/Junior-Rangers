@@ -12,10 +12,12 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
 import com.esri.android.map.MapView;
+import com.esri.android.map.ags.ArcGISFeatureLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.android.map.event.OnStatusChangedListener;
 import com.esri.android.map.popup.PopupContainer;
@@ -60,9 +62,9 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
     //used to test REST data requests
     //String featureServiceURL0 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/2";
-    //String featureServiceURL1 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/1";
+    String featureServiceURL1 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/1";
     //ArcGISFeatureLayer featureLayer0;
-    //ArcGISFeatureLayer featureLayer1;
+    ArcGISFeatureLayer featureLayer1;
 
     //the map on screen
     MapView mapView;
@@ -128,17 +130,17 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
         //add REST requested feature layer
         //featureLayer0 = new ArcGISFeatureLayer(featureServiceURL0, ArcGISFeatureLayer.MODE.ONDEMAND);
-        //featureLayer1 = new ArcGISFeatureLayer(featureServiceURL1, ArcGISFeatureLayer.MODE.ONDEMAND);
+        featureLayer1 = new ArcGISFeatureLayer(featureServiceURL1, ArcGISFeatureLayer.MODE.ONDEMAND);
         //mapView.addLayer(featureLayer0);
-        //mapView.addLayer(featureLayer1);
+        mapView.addLayer(featureLayer1);
 
         //initialize the GraphicsLayer
         graphicsLayer = new GraphicsLayer();
 
         //create the action points
-        //fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
         //TODO: replace hard coded string below with asset bundle string above in final versionn
-        fileName = "test_trail_arcgis.json";
+        //fileName = "test_trail_arcgis.json";
         String jsonData = loadJSONFromAsset(fileName);
         actionPoints = createActionPoints(jsonData);
         //add actionPoints to the graphics layer
@@ -161,6 +163,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
             public void onSingleTap(float x, float y) {
                 //location display manager can't be null for this
                 //this also determines if the map is ready for user interaction
+
+
                 if (locationDisplayManager != null) {
 
                     //if the popup is active
@@ -197,28 +201,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                     new Point(x, y),
                                     NEARBY_RADIUS_DP)) {
 
-                                /*
-                                //show popup with clickable text
-                                popup = new PopupMenu(
-                                        activity.getApplicationContext(),
-                                        view.findViewById(R.id.popupAnchor));
-                                popup.inflate(R.menu.menu_popup);
-                                //add text defined in JSON file to menu and define text click to do corresponding action
-                                popup.getMenu().add(
-                                        currentActionPoint.getText()).setOnMenuItemClickListener(
-                                        new MenuItem.OnMenuItemClickListener() {
-                                            @Override
-                                            public boolean onMenuItemClick(MenuItem item) {
-                                                //do the action associated with the popup
-                                                currentActionPoint.action();
-                                                return true;
-                                            }
-                                        });
-
-                                //make the popup visible
-                                popup.show();
-                                */
-
                                 //set text in "popup" to the ActionPoint's text
                                 actionPointPopup.setText(currentActionPoint.getText());
                                 //make the text clickable
@@ -242,6 +224,11 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                         }
                     }
                 }
+
+                /*
+                Toast toast = Toast.makeText(activity.getApplicationContext(), String.valueOf(mapView.toMapPoint(x, y).getX()) + " " + String.valueOf(mapView.toMapPoint(x, y).getY()), Toast.LENGTH_LONG);
+                toast.show();
+                */
             }
         });
 
