@@ -45,7 +45,7 @@ public class WordSearchFragment extends Fragment {
     JSONObject json;
     String[] wordBankArray = new String[100]; //TODO:Overhead needs to be addressed
     String[] wordInfoArray = new String[100];
-    String[] wordBankPuzzle = new String[100];
+    String[] wordPuzzleArray = new String[200];
     int numColumns;
 
     @Override
@@ -104,17 +104,28 @@ public class WordSearchFragment extends Fragment {
         //values = json.getJSONArray(WORDSEARCH_DATA);
         //values = wordBankJSONArray = wordDataJSON.getJSONArray(0);
 
+        wordPuzzleArray = new String[]{wordPuzzleJSONString};
+
         //Create GridView Adapter
-        TextAdapter gridViewAdapter = new TextAdapter(super.getActivity());
-        //Set GridView Adapter
-        gridView.setAdapter(gridViewAdapter);
+        TextAdapter gridViewAdapter = new TextAdapter(super.getActivity(), wordBankArray, wordPuzzleArray);
         //Create WordBank Adapter from TextAdapter2
         TextAdapter2 wordBankAdapter = new TextAdapter2(super.getActivity(), wordBankArray, wordInfoArray);
         //Toast.makeText(context, "WordBank: " + gridViewAdapter.getWords(), Toast.LENGTH_SHORT).show();
-        //Populate the Word Bank in the adapter
-        //wordBankAdapter.setWordBank(wordBankArray);
+
+        //Populate the Word Bank in the adapter - REDUNDANT NOW THAT IT IS PASSED IN CONSTRUCTOR ABOVE
+        wordBankAdapter.setWordBank(wordBankArray);
+
+        //Link Word Bank and Word Search(gridView) Adapters
+        wordBankAdapter.setWordSearchAdapter(gridViewAdapter);
+        gridViewAdapter.setWordBankAdapter(wordBankAdapter);
+
+        //Set GridView Adapter
+        gridView.setAdapter(gridViewAdapter);
         //Set Word Bank Adapter to Gridview wordbank
         wordBank.setAdapter(wordBankAdapter);
+
+        wordBank.setColumnWidth(wordBank.getWidth() / 2);
+
         //Set GridView Touch Listener
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

@@ -18,6 +18,9 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 import android.widget.RadioGroup.LayoutParams;
 
+import android.graphics.Typeface;
+import android.graphics.Paint;
+
 import android.util.Log;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -38,6 +41,10 @@ public class TextAdapter2 extends BaseAdapter {
     //private String[] xmlwords;
     private String[] JSONwords;
     private String[] wordInfo;
+    private TextView[] bank;
+    private int wordsLeft;
+    // wordSearch added to connect the two
+    private TextAdapter wordSearch;
     //private int wordsLeft = words.length;
     //private ArrayList<TextView> currentGuess = new ArrayList<TextView>();
     private Context ctx;
@@ -52,6 +59,8 @@ public class TextAdapter2 extends BaseAdapter {
         //xmlwords = ctx.getResources().getStringArray(R.array.word_bank_1);
         JSONwords = wordBankIn;
         wordInfo = wordInfoIn;
+        bank = new TextView[JSONwords.length];
+        wordsLeft = JSONwords.length;
     }
 
     public int getCount() {
@@ -75,9 +84,11 @@ public class TextAdapter2 extends BaseAdapter {
             tv = (TextView) convertView;
         }
 
+        tv.setTypeface(Typeface.DEFAULT_BOLD);
         tv.setText(JSONwords[position]);
         tv.setTextColor(Color.BLACK);
         tv.setOnTouchListener(new TextTouchListener());
+        bank[position] = tv;
 
         return tv;
     }
@@ -85,10 +96,60 @@ public class TextAdapter2 extends BaseAdapter {
     public void setWordBank(String[] wordBank){
 
         JSONwords = wordBank;
-        return;
     }
 
 
+    /*
+    The highlighted word on the word search will be checked to see if it
+    matches a word in the bank. If it does, then it's crossed out.
+     */
+    public boolean guess(String word)
+    {
+        for(String w : JSONwords)
+        {
+            if (w.equalsIgnoreCase(word))
+            {
+                wordsLeft--;
+                // cross word off bank
+                crossOut(word);
+                checkWin();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+    Strikes thru a word.
+     */
+    public void crossOut(String word)
+    {
+        for (TextView tv : bank) {
+            if (tv.getText().equals(word))
+            {
+                tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//                tv.setTextColor(Color.RED);
+                break;
+            }
+        }
+    }
+
+    /* TODO
+    Sees if there are any words left, if not, then display a splash screen
+    congratulating the user, awarding them points and exiting after.
+     */
+    public void checkWin()
+    {
+        if (wordsLeft == 0)
+        {
+            // do things here
+        }
+    }
+
+    public void setWordSearchAdapter(TextAdapter wsa)
+    {
+        wordSearch = wsa;
+    }
 
     /**
      * Touch listener which allows a word to be pressed.
