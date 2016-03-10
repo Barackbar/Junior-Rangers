@@ -1,0 +1,29 @@
+{
+  "name":"test trail arcgis",
+  "actionpoints":[
+    {
+      "latitude":"3881293.8",
+      "longitude":"-9619984.6",
+      "type":"picture",
+      "text":"Click this text to take a picture."
+    },
+    {
+      "latitude":"3881413.2",
+      "longitude":"-9618890.6",
+      "type":"information",
+      "text":"This is a lot of information, it might even take up too much of the screen. There's a point at which we should stop, but let's keep going and see what happens."
+    },
+    {
+      "latitude":"3880949.8",
+      "longitude":"-9618517.9",
+      "type":"information",
+      "text":"This is some more information."
+    },
+    {
+      "latitude":"3881136.2",
+      "longitude":"-9616651.5",
+      "type":"information",
+      "text":"This is the last point on the trail."
+    }
+  ]
+}

@@ -61,32 +61,28 @@ public class ParkFragment extends Fragment {
         Log.i("ParkFragment", "onCreateView");
         View view = inflater.inflate(R.layout.park_layout, container, false);
 
-        String parkActivities = getArguments().getString("activities");
-        //TODO Do we really need this? Discuss what exactly will be passed between fragments, through bundle or intent. If bundles why not just use a JSONobject.toString and then delimit the string for the activities.
-
-
         //Instantiate Elements
         selectedActivity = "";
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        goButton=(Button) view.findViewById(R.id.GoButton);
+        goButton = (Button) view.findViewById(R.id.GoButton);
 
         // Spinner Drop Down Elements
         categories = new ArrayList<String>();
 
         //Place Holder Elements till JSON is figured out
         //TODO JSON Stuff/possibly delimit string for different activities.
-        activitiesPopulation = populateSpinner(getArguments().getString("activities"));
+        activitiesPopulation = populateSpinner(getArguments().getString(getResources().getString(R.string.AssetBundleKey)));
         //extract values from JSONArray
         try {
             for (int i = 0; i < activitiesPopulation.length(); i++) {
-                categories.add(activitiesPopulation.getJSONObject(i).getString("activityName"));
+                categories.add(activitiesPopulation.getJSONObject(i).getString("name"));
             }
         }
         catch (JSONException e) {
             e.printStackTrace();
         }
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity().getApplicationContext(), R.layout.mainmenu_spinner_textview, categories);
 
         //Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -130,7 +126,6 @@ public class ParkFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray activitiesArray = jsonObject.getJSONArray("activities");
             sendArray = activitiesArray;
-
         }
         catch (JSONException e) {
             e.printStackTrace();
@@ -163,7 +158,7 @@ public class ParkFragment extends Fragment {
         //parse JSONArray for activityname specified by spinner. Then get correct filename.
         try {
             for (int i = 0; i < activitiesPopulation.length(); i++) {
-                if (activityName.equals(activitiesPopulation.getJSONObject(i).getString("activityName"))) {
+                if (activityName.equals(activitiesPopulation.getJSONObject(i).getString("name"))) {
                     filename = activitiesPopulation.getJSONObject(i).getString("filename");
                     type = activitiesPopulation.getJSONObject(i).getString("type");
                 }
@@ -175,13 +170,6 @@ public class ParkFragment extends Fragment {
         if (filename == "") {
             //DO Some Error Reporting
         }
-
-        /*
-        //Package the filename in an intent and send to Main
-        Intent intent = new Intent(getActivity().getBaseContext(), MainActivity.class);
-        intent.putExtra("toOpen", filename);
-        getActivity().startActivity(intent);
-        */
 
         //send the filename through a callback method
         mCallback.onParkActivitySelectedListener(filename, type);
