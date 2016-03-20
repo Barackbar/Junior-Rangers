@@ -1,5 +1,6 @@
 package com.au_team11.aljuniorrangers;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.Activity;
@@ -23,10 +24,12 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class WordSearchFragment extends Fragment {
 
@@ -166,6 +169,33 @@ public class WordSearchFragment extends Fragment {
                 */
             }
         }); //closing the setOnClickListener method
+
+
+
+
+        //add textviews of words to the linearlayout word bank
+        ArrayList<TextView> wordBankLL = new ArrayList<TextView>();
+        LinearLayout leftColumn = (LinearLayout) view.findViewById(R.id.leftColumn);
+        LinearLayout rightColumn = (LinearLayout) view.findViewById(R.id.rightColumn);
+        for (int i = 0; i < wordBankArray.length; i++) {
+            if (i%2 == 0) {
+                TextView temp = new TextView(context);
+                temp.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                temp.setText(wordBankArray[i]);
+                temp.setTextColor(Color.BLACK);
+                leftColumn.addView(temp);
+            }
+            else {
+                TextView temp = new TextView(context);
+                temp.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                temp.setText(wordBankArray[i]);
+                temp.setTextColor(Color.BLACK);
+                rightColumn.addView(temp);
+            }
+        }
+
+
+
 
         //lLayout.findViewById(gridView.getId());
         //return lLayout;
