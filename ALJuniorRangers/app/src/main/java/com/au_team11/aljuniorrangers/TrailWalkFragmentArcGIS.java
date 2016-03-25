@@ -2,6 +2,7 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
  * Created by JDSS on 2/17/16.
  */
 public class TrailWalkFragmentArcGIS extends Fragment {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //how close a click must be to a point to trigger an action
     public static final float NEARBY_RADIUS_DP = 10;
@@ -236,6 +239,16 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            if (resultCode == activity.RESULT_OK) {
+                Log.i("TWFAG", "onActivityResult stuff ok");
+            }
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         if (locationDisplayManager != null && !locationDisplayManager.isStarted())
@@ -302,7 +315,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                     new Point(
                                             jsonArray.getJSONObject(i).getDouble("longitude"),
                                             jsonArray.getJSONObject(i).getDouble("latitude")),
-                                    jsonArray.getJSONObject(i).getString("text")));
+                                    jsonArray.getJSONObject(i).getString("text"),
+                                    this));
                 }
                 else {
                     newActionPoints.add(

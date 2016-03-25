@@ -2,6 +2,7 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -83,5 +84,10 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         else {
             //do nothing
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
     }
 }
