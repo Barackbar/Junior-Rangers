@@ -24,10 +24,12 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         //TODO: pass filename for object data in constructor arguments
         if (savedInstanceState == null) {
             //put the main menu on screen
-            MainMenuFragment mainMenuFragment = new MainMenuFragment();
-            fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
-        }
+            //MainMenuFragment mainMenuFragment = new MainMenuFragment();
+            //fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
 
+            AnimalPartsFragment animalPartsFragment = new AnimalPartsFragment();
+            fragmentManager.beginTransaction().add(R.id.activity_main, animalPartsFragment).commit();
+        }
     }
 
     @Override
