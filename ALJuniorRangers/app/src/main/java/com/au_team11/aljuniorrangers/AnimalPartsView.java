@@ -44,6 +44,9 @@ public class AnimalPartsView extends View {
 
     public Boolean isInPic(int x, int y) {
 
+        //TODO: make this method take in an arraylist of rects maybe, and return back the index of
+        //the rect it is in or -1 for inside none
+
         if (x > destRect.left && x < destRect.right/2 && y > destRect.top && y < destRect.bottom/2) {
             return true;
         }
