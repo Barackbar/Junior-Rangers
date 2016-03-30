@@ -24,11 +24,8 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         //TODO: pass filename for object data in constructor arguments
         if (savedInstanceState == null) {
             //put the main menu on screen
-            //MainMenuFragment mainMenuFragment = new MainMenuFragment();
-            //fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
-
-            AnimalPartsFragment animalPartsFragment = new AnimalPartsFragment();
-            fragmentManager.beginTransaction().add(R.id.activity_main, animalPartsFragment).commit();
+            MainMenuFragment mainMenuFragment = new MainMenuFragment();
+            fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
         }
     }
 
@@ -76,9 +73,18 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                            .commit();
         }
         else if (type.equals("animalparts")) {
-            InfoFragment infoFragment = new InfoFragment();
+            /*InfoFragment infoFragment = new InfoFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.activity_main, infoFragment)
+                    .addToBackStack(null)
+                    .commit();
+            */
+            AnimalPartsFragment animalPartsFragment = new AnimalPartsFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
+            animalPartsFragment.setArguments(arguments);
+            fragmentManager.beginTransaction()
+                    .add(R.id.activity_main, animalPartsFragment)
                     .addToBackStack(null)
                     .commit();
         }

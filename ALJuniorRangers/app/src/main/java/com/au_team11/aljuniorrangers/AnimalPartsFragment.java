@@ -33,6 +33,8 @@ public class AnimalPartsFragment extends Fragment {
 
     AnimalPartsView animalPartsView;
 
+    String filename;
+
     Bitmap pic;
 
     //hitboxes, defined in percentage from left and top
@@ -79,7 +81,9 @@ public class AnimalPartsFragment extends Fragment {
             }
         });
 
-        String jsonData = loadJSONFromAsset("animalparts_data_demo_c1.json");
+        filename = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+
+        String jsonData = loadJSONFromAsset(filename);
 
         String picName = getPicName(jsonData);
 

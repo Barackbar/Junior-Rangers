@@ -58,8 +58,8 @@ public class AnimalPartsView extends View {
             //if x,y is within the current hitbox area (hitboxes defined in percentage)
             //x and y are integer pixels, divide by width or height to get decimal percentage from left or top
             //multiply by 100 to get integer percentage, which the hitboxes are defined as
-            if (hitboxes.get(i).contains((int) (((double) x / destRect.width()) * 100),
-                                         (int) (((double) y / destRect.height()) * 100))) {
+            if (hitboxes.get(i).contains((int) ((((double) x - destRect.left) / destRect.width()) * 100),
+                                         (int) ((((double) y - destRect.top) / destRect.height()) * 100))) {
                 return i;
             }
         }
