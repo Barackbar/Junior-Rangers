@@ -5,11 +5,9 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 
-//testing the ability of branching and merging
-
 public class MainActivity extends Activity implements ParkListener, ParkActivityListener {
 
-    TrailWalkFragment trailWalkFragment = null;
+    TrailWalkFragmentArcGIS trailWalkFragment = null;
 
     FragmentManager fragmentManager;
 
@@ -25,29 +23,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         //create a new TrailWalkFragment
         //TODO: pass filename for object data in constructor arguments
         if (savedInstanceState == null) {
-
-            /*
-            trailWalkFragment = new TrailWalkFragment();
-            Bundle arguments = new Bundle();
-            arguments.putString(getResources().getString(R.string.assetBundleKey), "trail_test_2.json");
-            trailWalkFragment.setArguments(arguments);
-            //put the fragment on the screen
-            fragmentManager.beginTransaction().add(R.id.activity_main, trailWalkFragment).commit();
-            */
-
-            /*
-            WordSearchFragment wordSearchFragment = new WordSearchFragment();
-            fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragment).commit();
-            */
-
-            /*
-            ParkFragment parkFragment = new ParkFragment();
-            Bundle args = new Bundle();
-            args.putString("activities", "test_park.json");
-            parkFragment.setArguments(args);
-            fragmentManager.beginTransaction().add(R.id.activity_main, parkFragment).commit();
-            */
-
+            //put the main menu on screen
             MainMenuFragment mainMenuFragment = new MainMenuFragment();
             fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
         }
@@ -64,9 +40,9 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
     }
 
     public void onParkSelectedListener(String parkFileName) {
-        //create new ParkFragment to put on screen
+        //create a new ParkFragment to put on screen
         ParkFragment parkFragment = new ParkFragment();
-        //load the arguments bundle with the asset data file
+        //load the arguments bundle with the asset data file name
         Bundle arguments = new Bundle();
         arguments.putString(getResources().getString(R.string.AssetBundleKey), parkFileName);
         parkFragment.setArguments(arguments);
@@ -80,7 +56,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
     public void onParkActivitySelectedListener(String fileName, String type) {
 
         if (type.equals("trailwalk")) {
-            trailWalkFragment = new TrailWalkFragment();
+            trailWalkFragment = new TrailWalkFragmentArcGIS();
             Bundle arguments = new Bundle();
             arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
             trailWalkFragment.setArguments(arguments);
@@ -96,6 +72,13 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                            .replace(R.id.activity_main, wordSearchFragment)
                            .addToBackStack(null)
                            .commit();
+        }
+        else if (type.equals("animalparts")) {
+            InfoFragment infoFragment = new InfoFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.activity_main, infoFragment)
+                    .addToBackStack(null)
+                    .commit();
         }
         else {
             //do nothing

@@ -1,0 +1,24 @@
+{
+  "name": "Word Search 1",
+  "puzzle": "TMCDEFRBADEFEBCPEFEBCDLFACCDEEAHCDEFAECDEFAWCDEFAACDEFACCDEFALLEAFAACDEF",
+  "columns": 6,
+
+  "wordbank": [
+    {
+      "word": "TREE",
+      "info": "Forests care filled with these."
+    },
+    {
+      "word": "MAPLE",
+      "info":"A type of tree that can be tapped for syrup."
+    },
+    {
+      "word": "LEAF",
+      "info": "These things grow from tree branches and absorb light to make food."
+    },
+    {
+      "word": "CHEWACLA",
+      "info": "The Alabama State Park located closest to Auburn University."
+    }
+  ]
+}

@@ -2,7 +2,20 @@
     <string name="app_name">AL Junior Rangers</string>
     <string name="action_settings">Settings</string>
     <string name="AssetBundleKey">assetBundleKey</string>
+
+    <string name="MainMenuTitleText">Alabama Junior Rangers</string>
     <string name="ParkSelectionGuideText">Select Your Park Below</string>
     <string name="ParkSelectorText">Go!</string>
-    <string name="MainMenuTitleText">Junior Rangers</string>
+
+    <string name="pop_up_test_info">Test information for a word bank \n pop up word.</string>
+    <string name="pop_up_word_found">You\'ve already found this word!</string>
+    <string name="pop_up_word_not_found">You haven\'t found that word, keep looking!</string>
+
+    <string-array name="word_bank_1">
+        <item>TREE </item>
+        <item>MAPLE</item>
+        <item>LEAF</item>
+        <item>CHEWACLA</item>
+    </string-array>
+
 </resources>
