@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
@@ -109,6 +108,11 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //set it to GONE to prevent clicks
         actionPointPopupContainer.setVisibility(View.GONE);
 
+        //get json file to use
+        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+        //load json into a string
+        final String jsonData = loadJSONFromAsset(fileName);
+
         //get reference to the map
         mapView = (MapView) view.findViewById(R.id.map);
         //mapview initialization must occur only after the map is ready
@@ -124,6 +128,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                     locationDisplayManager.setShowLocation(true);
                     //start location tracking
                     locationDisplayManager.start();
+                    //center the map at the point defined by the json file
+                    centerMap(jsonData, mapView);
                 }
             }
         });
@@ -137,11 +143,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //initialize the GraphicsLayer
         graphicsLayer = new GraphicsLayer();
 
-        //create the action points
-        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
-        //TODO: replace hard coded string below with asset bundle string above in final versionn
-        //fileName = "test_trail_arcgis.json";
-        String jsonData = loadJSONFromAsset(fileName);
+        //create action points on the map
         actionPoints = createActionPoints(jsonData);
         //add actionPoints to the graphics layer
         for(int i = 0; i < actionPoints.size(); i++) {
@@ -320,6 +322,20 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         }
 
         return newActionPoints;
+    }
+
+    public void centerMap(String json, MapView map) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            double lat = jsonObject.getDouble("latitude");
+            double lon = jsonObject.getDouble("longitude");
+
+            map.centerAt(new Point(lon, lat), true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     //credit goes to GrlsHu on StackOverflow
