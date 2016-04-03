@@ -1,0 +1,36 @@
+{
+  "name": "Word Search 2",
+  "puzzle": "NDHWYEIFNRHFISNDKSLCPSJEEDJDHUVNDJSKAMDODUJWMNEDLDSGPBLKDMSE",
+  "columns": 6,
+
+  "wordbank": [
+    {
+      "word": "MORNINGDEW",
+      "info": "Water in the form of droplets that appears on this, exposed objects in the morning or evening due to condensation."
+    },
+    {
+      "word": "RECREATION",
+      "info": "Activity done for enjoyment when one is not working."
+    },
+    {
+      "word": "PARK",
+      "info": "A large public green area in town, used for recreation."
+    },
+    {
+      "word": "RANGER",
+      "info": "A keeper of a park, forest, or area of countryside."
+    },
+    {
+      "word": "REPTILE",
+      "info": "A cold-blooded vertebrate of a class that includes, snakes, lizards, and turtles."
+    },
+    {
+      "word": "PRESERVE",
+      "info": "To maintain something in its original state."
+    },
+    {
+      "word": "BOOT",
+      "info": "A sturdy item of footwear, commonly worn when hiking."
+    }
+  ]
+}
