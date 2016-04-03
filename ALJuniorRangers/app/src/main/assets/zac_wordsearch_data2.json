@@ -1,6 +1,6 @@
 {
   "name": "Word Search 2",
-  "puzzle": "NDHWYEIFNRHFISNDKSLCPSJEEDJDHUVNDJSKAMDODUJWMNEDLDSGPBLKDMSE",
+  "puzzle": "MDHWYR OPARKE RBNDKC NROSJR IAJOHE NNDJTA GGDODT DEMNEI ERSGPO WKDMSN",
   "columns": 6,
 
   "wordbank": [
@@ -19,14 +19,6 @@
     {
       "word": "RANGER",
       "info": "A keeper of a park, forest, or area of countryside."
-    },
-    {
-      "word": "REPTILE",
-      "info": "A cold-blooded vertebrate of a class that includes, snakes, lizards, and turtles."
-    },
-    {
-      "word": "PRESERVE",
-      "info": "To maintain something in its original state."
     },
     {
       "word": "BOOT",
