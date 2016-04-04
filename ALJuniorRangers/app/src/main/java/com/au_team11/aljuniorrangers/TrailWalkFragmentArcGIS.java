@@ -195,11 +195,19 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                             final ActionPoint currentActionPoint = actionPoints.get(i);
 
                             //if the click is near to the current actionPoint
+                            //AND the current location is near to the current actionPoint
                             if (isNearOnScreen(
                                     mapView.toScreenPoint(
                                             currentActionPoint.getLocation()),
                                     new Point(x, y),
-                                    NEARBY_RADIUS_DP)) {
+                                    NEARBY_RADIUS_DP)
+                                &&
+                                isNearOnScreen(
+                                        mapView.toScreenPoint(
+                                                currentActionPoint.getLocation()),
+                                        mapView.toScreenPoint(
+                                                locationDisplayManager.getPoint()),
+                                        NEARBY_RADIUS_DP)) {
 
                                 //set text in "popup" to the ActionPoint's text
                                 actionPointPopup.setText(currentActionPoint.getText());
