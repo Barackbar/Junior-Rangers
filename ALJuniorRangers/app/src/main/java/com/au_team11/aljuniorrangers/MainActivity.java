@@ -88,6 +88,13 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                     .addToBackStack(null)
                     .commit();
         }
+        else if (type.equals("progressreport")) {
+            ProgressReportFragment progressReportFragment = new ProgressReportFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.activity_main, progressReportFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
         else {
             //do nothing
         }

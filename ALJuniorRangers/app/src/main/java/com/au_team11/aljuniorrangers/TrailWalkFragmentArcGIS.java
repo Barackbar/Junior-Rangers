@@ -2,8 +2,11 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +40,8 @@ import java.util.ArrayList;
  * Created by JDSS on 2/17/16.
  */
 public class TrailWalkFragmentArcGIS extends Fragment {
+
+    private static Context context;
 
     //how close a click must be to a point to trigger an action
     public static final float NEARBY_RADIUS_DP = 10;
@@ -85,6 +90,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         this.activity =  activity;
         pxPerDp =   activity.getApplicationContext().getResources().getDisplayMetrics().densityDpi
                   / activity.getApplicationContext().getResources().getDisplayMetrics().DENSITY_DEFAULT;
+        context = activity.getApplicationContext();
     }
 
     @Nullable
@@ -100,6 +106,10 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
         //inflate view from layout
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putInt("TRAIL", 25);
+        editor.commit();
 
         //get textview from layout
         actionPointPopup = (TextView) view.findViewById(R.id.ActionButtonPopup);

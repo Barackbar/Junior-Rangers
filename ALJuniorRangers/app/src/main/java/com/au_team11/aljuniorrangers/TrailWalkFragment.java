@@ -3,12 +3,14 @@ package com.au_team11.aljuniorrangers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +30,10 @@ import java.util.ArrayList;
 public class TrailWalkFragment extends Fragment {
 
     Activity mCallback;
-
     TrailWalk trailWalk;
-
     View view;
-
     TrailWalkView trailWalkView;
+    private static Context context;
 
     public TrailWalkFragment() {
     }
@@ -41,6 +41,7 @@ public class TrailWalkFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        context = activity.getApplicationContext();
 
         try {
             mCallback = (Activity) activity;
