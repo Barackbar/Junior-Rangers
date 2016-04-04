@@ -176,20 +176,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                         //record that the popup has disappeared
                         popupActive = false;
                     }
-                    //else if the user tapped their current location
-                    else if (isNearOnScreen(
-                            mapView.toScreenPoint(
-                                    locationDisplayManager.getPoint()),
-                            new Point(x, y),
-                            NEARBY_RADIUS_DP)) {
-
-                        //DO THING AT CURRENT LOCATION
-                        Log.i("ArcGIS", "click is near current location");
-
-                    }
-                    //else see if the user tapped any of the JSON defined points
-                    else {
-
                         //for every defined point
                         for (int i = 0; i < actionPoints.size(); i++) {
 
@@ -197,7 +183,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                             final ActionPoint currentActionPoint = actionPoints.get(i);
 
                             //if the click is near to the current actionPoint
-                            //AND the current location is near to the current actionPoint
+                            //AND the current location is near to the user click
                             if (isNearOnScreen(
                                     mapView.toScreenPoint(
                                             currentActionPoint.getLocation()),
@@ -206,9 +192,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                 &&
                                 isNearOnScreen(
                                         mapView.toScreenPoint(
-                                                currentActionPoint.getLocation()),
-                                        mapView.toScreenPoint(
                                                 locationDisplayManager.getPoint()),
+                                        new Point(x,y),
                                         NEARBY_RADIUS_DP)) {
 
                                 //set text in "popup" to the ActionPoint's text
@@ -232,7 +217,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                 i = actionPoints.size();
                             }
                         }
-                    }
+
                 }
 
                 /*
