@@ -6,6 +6,13 @@
     android:background="#04c3df"
     android:id="@+id/PopUpLayout">
     <TextView
+        android:id="@+id/word"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="40dp"
+        android:textSize="24dp"
+        android:textColor="#000000"/>
+    <TextView
         android:id="@+id/popuptv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
