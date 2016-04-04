@@ -25,5 +25,36 @@
       "right":100,
       "bottom":100
     }
+  ],
+  "information":[
+    {
+      "info": "This is a placeholder for the Antlers hitbox"
+    },
+    {
+      "info": "This is a placeholder for the torso hitbox"
+    },
+    {
+      "info": "This is a placeholder for the legs hitbox"
+    },
+    {
+      "info":"This is a placeholder for the mouth hitbox"
+    }
+  ],
+  "quiz":[
+    {
+      "question": "Which animal part was the first one I clicked today?"
+    },
+    {
+      "question": "Head"
+    },
+    {
+      "question": "Body"
+    },
+    {
+      "question": "Legs"
+    },
+    {
+      "question": "Face"
+    }
   ]
 }
