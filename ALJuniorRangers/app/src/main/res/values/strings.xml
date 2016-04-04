@@ -18,4 +18,8 @@
         <item>CHEWACLA</item>
     </string-array>
 
+    <string name="trail">Trail Walk Activity:\ </string>
+    <string name="animal">Animal Parts Activity:\ </string>
+    <string name="word">Word Search Activity:\ </string>
+
 </resources>
