@@ -61,6 +61,8 @@ public class AnimalPartsFragment extends Fragment {
     //Layout to hold the RadioButtons so that they can only be uniquely answered.
     RadioGroup quizLayout;
 
+    TextView quizQuestion;
+
     //Quiz answer buttons
     RadioButton answer1, answer2, answer3, answer4;
 
@@ -149,17 +151,20 @@ public class AnimalPartsFragment extends Fragment {
 
         quizLayout = (RadioGroup) view.findViewById(R.id.fullquiz);
 
+        quizQuestion = (TextView) view.findViewById(R.id.quizQuestion);
+        quizQuestion.setText(quizArray.get(0));
+
         answer1 = (RadioButton) view.findViewById(R.id.answerA);
-        answer1.setText(quizArray.get(0));
+        answer1.setText(quizArray.get(1));
 
         answer2 = (RadioButton) view.findViewById(R.id.answerB);
-        answer2.setText(quizArray.get(1));
+        answer2.setText(quizArray.get(2));
 
         answer3 = (RadioButton) view.findViewById(R.id.answerC);
-        answer3.setText(quizArray.get(2));
+        answer3.setText(quizArray.get(3));
 
         answer4 = (RadioButton) view.findViewById(R.id.answerD);
-        answer4.setText(quizArray.get(3));
+        answer4.setText(quizArray.get(4));
 
         quizButton = (Button) view.findViewById(R.id.quizB);
         quizButton.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +173,7 @@ public class AnimalPartsFragment extends Fragment {
                 quizButton.setVisibility(quizButton.GONE);
                 animalPartsView.setVisibility(animalPartsView.GONE);
                 quizLayout.setVisibility(quizLayout.VISIBLE);
+                quizQuestion.setVisibility(quizQuestion.VISIBLE);
 
             }
         });
@@ -195,7 +201,7 @@ public class AnimalPartsFragment extends Fragment {
                 quizButton.setVisibility(quizButton.VISIBLE);
                 animalPartsView.setVisibility(animalPartsView.VISIBLE);
                 quizLayout.setVisibility(quizLayout.GONE);
-
+                quizQuestion.setVisibility(quizQuestion.GONE);
             }
         });
 
@@ -262,10 +268,11 @@ public class AnimalPartsFragment extends Fragment {
                 informationArray.add(arrayObject.getString("info"));
             }
             JSONArray jsonQuestionArray = jsonObject.getJSONArray("quiz");
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonQuestionArray.length(); i++) {
                 JSONObject arrayObject = jsonQuestionArray.getJSONObject(i);
                 quizArray.add(arrayObject.getString("question"));
             }
+            Log.i("quizarray", "" + quizArray.size());
             return newHitboxes;
         }
         catch (Exception e) {
