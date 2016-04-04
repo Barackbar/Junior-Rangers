@@ -11,6 +11,8 @@
     <string name="pop_up_word_found">You\'ve already found this word!</string>
     <string name="pop_up_word_not_found">You haven\'t found that word, keep looking!</string>
 
+    <string name="WordBankTitleText">------WORD BANK------</string>
+
     <string-array name="word_bank_1">
         <item>TREE </item>
         <item>MAPLE</item>
