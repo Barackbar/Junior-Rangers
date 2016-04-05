@@ -3,10 +3,12 @@ package com.au_team11.aljuniorrangers;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -215,6 +217,10 @@ public class AnimalPartsFragment extends Fragment {
                 exitInfoButton.setVisibility(View.GONE);
             }
         });
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putInt("ANIMAL", 100);
+        editor.commit();
 
         return view;
     }
