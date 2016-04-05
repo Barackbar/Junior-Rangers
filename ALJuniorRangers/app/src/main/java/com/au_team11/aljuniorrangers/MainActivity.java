@@ -27,7 +27,6 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
             MainMenuFragment mainMenuFragment = new MainMenuFragment();
             fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
         }
-
     }
 
     @Override
@@ -74,9 +73,25 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                            .commit();
         }
         else if (type.equals("animalparts")) {
-            InfoFragment infoFragment = new InfoFragment();
+            /*InfoFragment infoFragment = new InfoFragment();
             fragmentManager.beginTransaction()
                     .replace(R.id.activity_main, infoFragment)
+                    .addToBackStack(null)
+                    .commit();
+            */
+            AnimalPartsFragment animalPartsFragment = new AnimalPartsFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
+            animalPartsFragment.setArguments(arguments);
+            fragmentManager.beginTransaction()
+                    .add(R.id.activity_main, animalPartsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else if (type.equals("progressreport")) {
+            ProgressReportFragment progressReportFragment = new ProgressReportFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.activity_main, progressReportFragment)
                     .addToBackStack(null)
                     .commit();
         }

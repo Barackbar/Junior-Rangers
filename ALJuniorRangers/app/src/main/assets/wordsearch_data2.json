@@ -1,0 +1,56 @@
+{
+  "name": "Word Search 2",
+  "puzzle": "ALWKDNCJBIDJWUEYRBSALZMSNDOFIGPSOENQMDCNVHEUWYSDPQANXJZMEDOE",
+  "columns": 6,
+
+  "wordbank": [
+    {
+      "word": "BIRDING",
+      "info": "The observation of birds in their natural habitats as a hobby."
+    },
+    {
+      "word": "OAK",
+      "info": "A type of tree that bears acorns as fruit."
+    },
+    {
+      "word": "WATERFALL",
+      "info": "A cascade of water falling from a height."
+    },
+    {
+      "word": "HIKING",
+      "info": "Walking for a long distance, especially in the woods or countryside."
+    },
+    {
+      "word": "ARBOR",
+      "info": "Latin for 'tree' (i.e. Arbor Day)."
+    },
+    {
+      "word": "BARK",
+      "info": "The tough outer sheath of a tree."
+    },
+    {
+      "word": "SPIDER",
+      "info": "An eight-legged predatory arachnid."
+    },
+    {
+      "word": "POISONIVY",
+      "info": "A plant that secretes an irritant oli which can cause dermatitis."
+    },
+    {
+      "word": "FOREST",
+      "info": "A large area covered mostly with trees and overgrowth."
+    },
+    {
+      "word": "ECOLOGY",
+      "info": "The branch of biology that deals with the relations of organisms to one another and to their physical surroundings."
+    },
+    {
+      "word": "BIOLOGY",
+      "info": "The study of living organisms, divided into many specialized fields, such as ecology."
+    },
+    {
+      "word": "TRAIL",
+      "info": "A beaten path through rough country, such as a forest or moor."
+    }
+  ]
+}

@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="AssetBundleKey">assetBundleKey</string>
 
-    <string name="MainMenuTitleText">Alabama Junior Rangers</string>
+    <string name="MainMenuTitleText">Alabama State Parks Junior Rangers</string>
     <string name="ParkSelectionGuideText">Select Your Park Below</string>
     <string name="ParkSelectorText">Go!</string>
 
@@ -11,11 +11,17 @@
     <string name="pop_up_word_found">You\'ve already found this word!</string>
     <string name="pop_up_word_not_found">You haven\'t found that word, keep looking!</string>
 
+    <string name="WordBankTitleText">------WORD BANK------</string>
+
     <string-array name="word_bank_1">
         <item>TREE </item>
         <item>MAPLE</item>
         <item>LEAF</item>
         <item>CHEWACLA</item>
     </string-array>
+
+    <string name="trail">Trail Walk Activity:\ </string>
+    <string name="animal">Animal Parts Activity:\ </string>
+    <string name="word">Word Search Activity:\ </string>
 
 </resources>
