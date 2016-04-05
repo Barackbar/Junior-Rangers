@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="AssetBundleKey">assetBundleKey</string>
 
-    <string name="MainMenuTitleText">Alabama Junior Rangers</string>
+    <string name="MainMenuTitleText">Alabama State Parks Junior Rangers</string>
     <string name="ParkSelectionGuideText">Select Your Park Below</string>
     <string name="ParkSelectorText">Go!</string>
 
@@ -19,5 +19,9 @@
         <item>LEAF</item>
         <item>CHEWACLA</item>
     </string-array>
+
+    <string name="trail">Trail Walk Activity:\ </string>
+    <string name="animal">Animal Parts Activity:\ </string>
+    <string name="word">Word Search Activity:\ </string>
 
 </resources>

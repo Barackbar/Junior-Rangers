@@ -15,6 +15,11 @@
       "name":"Animal Parts",
       "filename":"animalparts_data_demo_c1.json",
       "type":"animalparts"
+    },
+    {
+      "name":"Progress Report",
+      "filename":"progressreport_data.json",
+      "type":"progressreport"
     }
   ]
 }

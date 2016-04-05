@@ -2,8 +2,11 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
@@ -38,6 +40,8 @@ import java.util.ArrayList;
  * Created by JDSS on 2/17/16.
  */
 public class TrailWalkFragmentArcGIS extends Fragment {
+
+    private static Context context;
 
     //how close a click must be to a point to trigger an action
     public static final float NEARBY_RADIUS_DP = 10;
@@ -86,6 +90,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         this.activity =  activity;
         pxPerDp =   activity.getApplicationContext().getResources().getDisplayMetrics().densityDpi
                   / activity.getApplicationContext().getResources().getDisplayMetrics().DENSITY_DEFAULT;
+        context = activity.getApplicationContext();
     }
 
     @Nullable
@@ -102,12 +107,21 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //inflate view from layout
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
 
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putInt("TRAIL", 25);
+        editor.commit();
+
         //get textview from layout
         actionPointPopup = (TextView) view.findViewById(R.id.ActionButtonPopup);
         //get the textview container from layout
         actionPointPopupContainer = (ScrollView) view.findViewById(R.id.ActionButtonPopupContainer);
         //set it to GONE to prevent clicks
         actionPointPopupContainer.setVisibility(View.GONE);
+
+        //get json file to use
+        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+        //load json into a string
+        final String jsonData = loadJSONFromAsset(fileName);
 
         //get reference to the map
         mapView = (MapView) view.findViewById(R.id.map);
@@ -124,6 +138,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                     locationDisplayManager.setShowLocation(true);
                     //start location tracking
                     locationDisplayManager.start();
+                    //center the map at the point defined by the json file
+                    centerMap(jsonData, mapView);
                 }
             }
         });
@@ -137,11 +153,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //initialize the GraphicsLayer
         graphicsLayer = new GraphicsLayer();
 
-        //create the action points
-        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
-        //TODO: replace hard coded string below with asset bundle string above in final versionn
-        //fileName = "test_trail_arcgis.json";
-        String jsonData = loadJSONFromAsset(fileName);
+        //create action points on the map
         actionPoints = createActionPoints(jsonData);
         //add actionPoints to the graphics layer
         for(int i = 0; i < actionPoints.size(); i++) {
@@ -174,20 +186,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                         //record that the popup has disappeared
                         popupActive = false;
                     }
-                    //else if the user tapped their current location
-                    else if (isNearOnScreen(
-                            mapView.toScreenPoint(
-                                    locationDisplayManager.getPoint()),
-                            new Point(x, y),
-                            NEARBY_RADIUS_DP)) {
-
-                        //DO THING AT CURRENT LOCATION
-                        Log.i("ArcGIS", "click is near current location");
-
-                    }
-                    //else see if the user tapped any of the JSON defined points
-                    else {
-
                         //for every defined point
                         for (int i = 0; i < actionPoints.size(); i++) {
 
@@ -195,11 +193,18 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                             final ActionPoint currentActionPoint = actionPoints.get(i);
 
                             //if the click is near to the current actionPoint
+                            //AND the current location is near to the user click
                             if (isNearOnScreen(
                                     mapView.toScreenPoint(
                                             currentActionPoint.getLocation()),
                                     new Point(x, y),
-                                    NEARBY_RADIUS_DP)) {
+                                    NEARBY_RADIUS_DP)
+                                &&
+                                isNearOnScreen(
+                                        mapView.toScreenPoint(
+                                                locationDisplayManager.getPoint()),
+                                        new Point(x,y),
+                                        NEARBY_RADIUS_DP)) {
 
                                 //set text in "popup" to the ActionPoint's text
                                 actionPointPopup.setText(currentActionPoint.getText());
@@ -222,7 +227,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                 i = actionPoints.size();
                             }
                         }
-                    }
+
                 }
 
                 /*
@@ -320,6 +325,20 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         }
 
         return newActionPoints;
+    }
+
+    public void centerMap(String json, MapView map) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            double lat = jsonObject.getDouble("latitude");
+            double lon = jsonObject.getDouble("longitude");
+
+            map.centerAt(new Point(lon, lat), true);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     //credit goes to GrlsHu on StackOverflow

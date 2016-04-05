@@ -1,9 +1,13 @@
 package com.au_team11.aljuniorrangers;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +35,7 @@ public class InfoFragment extends Fragment{
     RadioGroup quizLayout;
     RadioButton answer1, answer2, answer3, answer4;
     ImageView pictureImage, hitbox1, hitbox2, hitbox3;
+    private static Context context;
 
 
     public InfoFragment() {
@@ -46,7 +51,6 @@ public class InfoFragment extends Fragment{
         super.onCreateView(inflater, container, savedInstanceState);
         Log.i("infoFragment", "onCreateView");
         View view = inflater.inflate(R.layout.info_view, container, false);
-
 
         importText = (TextView) view.findViewById(R.id.infoBox);
         isCorrectText = (TextView) view.findViewById(R.id.isCorrect);
@@ -147,7 +151,18 @@ public class InfoFragment extends Fragment{
                 hitbox1.setVisibility(hitbox1.VISIBLE);
             }
         });
+
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putInt("ANIMAL", 100);
+        editor.commit();
         return view;
+    }
+
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        context = activity.getApplicationContext();
     }
 
     /**
