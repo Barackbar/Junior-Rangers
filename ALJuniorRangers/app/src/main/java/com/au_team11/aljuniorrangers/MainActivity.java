@@ -20,12 +20,14 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
 
         fragmentManager = getFragmentManager();
 
-        //create a new TrailWalkFragment
         //TODO: pass filename for object data in constructor arguments
         if (savedInstanceState == null) {
             //put the main menu on screen
-            MainMenuFragment mainMenuFragment = new MainMenuFragment();
-            fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
+            //MainMenuFragment mainMenuFragment = new MainMenuFragment();
+            //fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
+
+            WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
+            fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
         }
     }
 
