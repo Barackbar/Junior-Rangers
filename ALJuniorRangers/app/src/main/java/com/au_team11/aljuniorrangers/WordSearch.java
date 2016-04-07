@@ -1,6 +1,7 @@
 package com.au_team11.aljuniorrangers;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.TextView;
 import java.util.ArrayList;
 
@@ -40,18 +41,23 @@ public class WordSearch {
             return true;
         }
 
+        Log.i("WS", "numRows: " + numRows);
+
         //check first two indices
         right = (indices.get(1).intValue() % numColumns) - (indices.get(0).intValue() % numColumns);
-        down = (indices.get(1).intValue() / numRows) - (indices.get(0).intValue() / numRows);
+        down = (indices.get(1).intValue() / numColumns) - (indices.get(0).intValue() / numColumns);
+        Log.i("WS", "r,d: " + right  + "," + down);
         //if the indices move more than 1 place, possible to go straight up/down or left/right (down or right == 0)
         if (Math.abs(right) > 1 || Math.abs(down) > 1) {
             return false;
         }
 
         //check that all other indices follow the same pattern
-        for (int i = 1; i < (indices.size() - 1); i++) {
-            if ((((indices.get(1).intValue() % numColumns)   -   (indices.get(0).intValue() % numColumns))  != right) ||
-                (((indices.get(1).intValue() / numRows)      -   (indices.get(0).intValue() / numRows))     != down)) {
+        for (int i = 2; i < indices.size(); i++) {
+            Log.i("WS", "i.g(i-1): " + indices.get(i-1).intValue());
+            Log.i("WS", "i.g(i): " + indices.get(i).intValue());
+            if ((((indices.get(i).intValue() % numColumns)   -   (indices.get(i-1).intValue() % numColumns))  != right) ||
+                (((indices.get(i).intValue() / numColumns)      -   (indices.get(i-1).intValue() / numColumns))     != down)) {
                 return false;
             }
         }
@@ -61,12 +67,12 @@ public class WordSearch {
     }
 
     //Returns the textview in the wordbank that the indices spells out, returns null if not in word bank
-    public TextView findWordInPuzzle(int[] indices) {
+    public TextView findWordInPuzzle(ArrayList<Integer> indices) {
         String potentialWord = "";
         //for every board index in the indices
-        for (int i = 0; i < indices.length; i++) {
+        for (int i = 0; i < indices.size(); i++) {
             //build the word from the board textviews
-            potentialWord += puzzleTVs.get(indices[i]).getText().toString();
+            potentialWord += puzzleTVs.get(indices.get(i)).getText().toString();
         }
 
         //find the wordbank textview, will return null if not in wordbank
