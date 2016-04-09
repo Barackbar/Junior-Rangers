@@ -33,7 +33,7 @@ public class WordSearchFragmentJDSS extends Fragment {
     Context context;
     View view;
 
-    WordSearch wordSearch;
+    WordSearchJDSS wordSearchJDSS;
     ArrayList<TextView> puzzleTVs;
     ArrayList<TextView> wordBankTVs;
 
@@ -101,10 +101,10 @@ public class WordSearchFragmentJDSS extends Fragment {
         words.add("booty");
 
 
-        wordSearch = new WordSearch(context, board, words, NUM_COLUMNS_BOARD);
+        wordSearchJDSS = new WordSearchJDSS(context, board, words, NUM_COLUMNS_BOARD);
 
-        puzzleTVs = wordSearch.getPuzzleTVs();
-        wordBankTVs = wordSearch.getWordBankTVs();
+        puzzleTVs = wordSearchJDSS.getPuzzleTVs();
+        wordBankTVs = wordSearchJDSS.getWordBankTVs();
 
         //add textviews to the board
         for (int i = 0; i < puzzleTVs.size(); i++) {
@@ -133,11 +133,11 @@ public class WordSearchFragmentJDSS extends Fragment {
                                 //add this index to the current selection list
                                 currentSelection.add(new Integer(i));
                                 //if this textview continues the line set by the current selection
-                                if (wordSearch.isInLine(currentSelection)) {
+                                if (wordSearchJDSS.isInLine(currentSelection)) {
                                     //change color to selection color
                                     currentTextView.setBackgroundColor(SELECTION_COLOR);
                                     //if this current selection forms a word
-                                    TextView currentWordBankWord = wordSearch.findWordInPuzzle(currentSelection);
+                                    TextView currentWordBankWord = wordSearchJDSS.findWordInPuzzle(currentSelection);
                                     if (currentWordBankWord != null) {
                                         //cross out word
                                         currentWordBankWord.setPaintFlags(currentWordBankWord.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
