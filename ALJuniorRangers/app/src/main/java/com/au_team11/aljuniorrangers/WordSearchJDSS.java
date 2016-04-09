@@ -3,6 +3,12 @@ package com.au_team11.aljuniorrangers;
 import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -13,20 +19,24 @@ public class WordSearchJDSS {
     Context context;
 
     int numColumns;
-    int numRows;
+    String JSONFileName;
     ArrayList<TextView> puzzleTVs;
     ArrayList<TextView> wordBankTVs;
+    ArrayList<String> wordBankInfoStrings;
 
-    public WordSearchJDSS(Context newContext, ArrayList<String> newPuzzle, ArrayList<String> newWordBank, int newNumColumns){
+    public WordSearchJDSS(Context newContext, String newJSONFileName, int newNumColumns){
 
         context = newContext;
 
-        puzzleTVs = createTextViews(newContext, newPuzzle);
+        JSONFileName = newJSONFileName;
 
-        wordBankTVs = createTextViews(newContext, newWordBank);
+        puzzleTVs = new ArrayList<TextView>();
+        wordBankTVs = new ArrayList<TextView>();
+        wordBankInfoStrings = new ArrayList<String>();
+
+        generateWordSearch(JSONFileName);
 
         numColumns = newNumColumns;
-        numRows = puzzleTVs.size() / numColumns;
     }
 
     //returns true if the indices form a straight line, returns false if not straight or if indices out of order
@@ -40,8 +50,6 @@ public class WordSearchJDSS {
         if (indices.size() < 2 ) {
             return true;
         }
-
-        Log.i("WS", "numRows: " + numRows);
 
         //check first two indices
         right = (indices.get(1).intValue() % numColumns) - (indices.get(0).intValue() % numColumns);
@@ -67,7 +75,7 @@ public class WordSearchJDSS {
     }
 
     //Returns the textview in the wordbank that the indices spells out, returns null if not in word bank
-    public TextView findWordInPuzzle(ArrayList<Integer> indices) {
+    public TextView findWordTextViewInPuzzle(ArrayList<Integer> indices) {
         String potentialWord = "";
         //for every board index in the indices
         for (int i = 0; i < indices.size(); i++) {
@@ -76,17 +84,47 @@ public class WordSearchJDSS {
         }
 
         //find the wordbank textview, will return null if not in wordbank
-        return findWordInWordBank(potentialWord);
+        return findWordTextViewInWordBank(potentialWord);
+    }
+
+    //Returns the index of the word in the wordbank that the indices spells out, returns -1 if not in word bank
+    public int findWordIndexInPuzzle(ArrayList<Integer> indices) {
+        String potentialWord = "";
+        //for every board index in the indices
+        for (int i = 0; i < indices.size(); i++) {
+            //build the word from the board textviews
+            potentialWord += puzzleTVs.get(indices.get(i)).getText().toString();
+        }
+
+        for (int i = 0; i < wordBankTVs.size(); i++) {
+            //if the potential word equals the word in the word bank
+            if (potentialWord.equalsIgnoreCase(wordBankTVs.get(i).getText().toString())) {
+                //return the index of the word in the word bank
+                return i;
+            }
+        }
+        //if it is not found, return -1
+        return -1;
     }
 
     //returns the word bank textview for the word provided, null if word not in wordbank
-    public TextView findWordInWordBank(String word) {
+    public TextView findWordTextViewInWordBank(String word) {
         for (int i = 0; i < wordBankTVs.size(); i++) {
-            if (word.equals(wordBankTVs.get(i).getText().toString())) {
+            if (word.equalsIgnoreCase(wordBankTVs.get(i).getText().toString())) {
                 return wordBankTVs.get(i);
             }
         }
         return null;
+    }
+
+    //returns the word bank textview for the word provided, null if word not in wordbank
+    public int findWordIndexInWordBank(String word) {
+        for (int i = 0; i < wordBankTVs.size(); i++) {
+            if (word.equalsIgnoreCase(wordBankTVs.get(i).getText().toString())) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public TextView getWordInWordBank(int index) {
@@ -98,21 +136,6 @@ public class WordSearchJDSS {
         }
     }
 
-    public ArrayList<TextView> createTextViews(Context context, ArrayList<String> strings) {
-        ArrayList<TextView> newTextViews = new ArrayList<TextView>();
-        for (int i = 0; i < strings.size(); i++) {
-
-            TextView newTextView = new TextView(context);
-
-            newTextView.setText(strings.get(i));
-
-            //set the onclicklistener in the wordsearchfragment
-
-            newTextViews.add(newTextView);
-        }
-        return newTextViews;
-    }
-
     public ArrayList<TextView> getPuzzleTVs() {
         return puzzleTVs;
     }
@@ -120,4 +143,88 @@ public class WordSearchJDSS {
     public ArrayList<TextView> getWordBankTVs() {
         return wordBankTVs;
     }
+
+    public ArrayList<String> getWordBankInfoStrings() {
+        return wordBankInfoStrings;
+    }
+
+    public void setWordBankInfoStrings(ArrayList<String> wordBankInfoStrings) {
+        this.wordBankInfoStrings = wordBankInfoStrings;
+    }
+
+    //credit goes to GrlsHu on StackOverflow
+    //returns a json string from the asset file
+    public String loadJSONFromAsset(String fileName) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+
+    public void generateWordSearch(String jsonFileName) {
+
+        //get the json data into JSON Object form
+        try {
+            JSONObject rootObject = new JSONObject(loadJSONFromAsset(jsonFileName));
+            String puzzle = rootObject.getString("puzzle");
+
+            //build the puzzle textviews from the json data
+            for (int i = 0; i < puzzle.length(); i++) {
+                //create new textview
+                TextView newTextView = new TextView(context);
+                //set the new textview's text to the current letter
+                newTextView.setText(puzzle.substring(i, i+1));
+                //add the new textview to the arraylist
+                this.puzzleTVs.add(newTextView);
+            }
+
+            //build the wordbank and wordbank info from the json data
+            JSONArray bankArray = rootObject.getJSONArray("wordbank");
+            for (int i = 0; i < bankArray.length(); i++) {
+                //get the current JSON Object
+                JSONObject currentWord = bankArray.getJSONObject(i);
+                //create new textview
+                TextView newTextView = new TextView(context);
+                //set the new textview's text to the current word
+                newTextView.setText(currentWord.getString("word"));
+                //add the new textview to the arraylist
+                this.wordBankTVs.add(newTextView);
+                //add the current word's info to the info arraylist
+                this.wordBankInfoStrings.add(currentWord.getString("info"));
+            }
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //returns the wordbank words as an arraylist of strings
+    public ArrayList<String> getBankWords(String data) {
+        ArrayList bankArrayList = new ArrayList<String>();
+        try {
+            //get each word from the JSON array
+            JSONArray jsonArray = new JSONObject(data).getJSONArray("wordbank");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                bankArrayList.add(jsonArray.getJSONObject(i).getString("word"));
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bankArrayList;
+    }
+
+    //returns the info on each word as an arraylist of strings
 }

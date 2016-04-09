@@ -26,7 +26,12 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
             //MainMenuFragment mainMenuFragment = new MainMenuFragment();
             //fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
 
+            //new wordsearch instantiation
+            //TODO: put this into the type.equals("wordsearch") part in onParkActivitySelectedListener
             WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
+            Bundle arguments = new Bundle();
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), "wordsearch_test_jdss.json");
+            wordSearchFragmentJDSS.setArguments(arguments);
             fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
         }
     }
@@ -69,6 +74,14 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
         else if (type.equals("wordsearch")) {
             WordSearchFragment wordSearchFragment = new WordSearchFragment();
+
+            //new wordsearch instantiation
+            //WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
+            //fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
+            //Bundle arguments = new Bundle();
+            //arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
+            //wordSearchFragmentJDSS.setArguments(arguments);
+
             fragmentManager.beginTransaction()
                            .replace(R.id.activity_main, wordSearchFragment)
                            .addToBackStack(null)

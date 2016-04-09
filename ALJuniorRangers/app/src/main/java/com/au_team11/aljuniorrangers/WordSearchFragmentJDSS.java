@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,9 +34,12 @@ public class WordSearchFragmentJDSS extends Fragment {
     Context context;
     View view;
 
+    String fileName;
+
     WordSearchJDSS wordSearchJDSS;
     ArrayList<TextView> puzzleTVs;
     ArrayList<TextView> wordBankTVs;
+    ArrayList<String> wordBankInfoStrings;
 
     //the currently selected indices on the board
     ArrayList<Integer> currentSelection;
@@ -86,25 +90,13 @@ public class WordSearchFragmentJDSS extends Fragment {
         bankCol0 = (LinearLayout) view.findViewById(R.id.bankCol0);
         bankCol1 = (LinearLayout) view.findViewById(R.id.bankCol1);
 
-        //do other stuff
-        ArrayList<String> board = new ArrayList<String>();
-        String letters = "swiggitywzzezzzzozzthatzozzzzzzztzbootyzyzzzzzzz";
-        for (int i = 0; i < letters.length(); i++) {
-            board.add(letters.substring(i, i+1));
-        }
+        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
 
-        ArrayList<String> words = new ArrayList<String>();
-        words.add("swiggity");
-        words.add("swooty");
-        words.add("get");
-        words.add("that");
-        words.add("booty");
-
-
-        wordSearchJDSS = new WordSearchJDSS(context, board, words, NUM_COLUMNS_BOARD);
+        wordSearchJDSS = new WordSearchJDSS(context, fileName, NUM_COLUMNS_BOARD);
 
         puzzleTVs = wordSearchJDSS.getPuzzleTVs();
         wordBankTVs = wordSearchJDSS.getWordBankTVs();
+        wordBankInfoStrings = wordSearchJDSS.getWordBankInfoStrings();
 
         //add textviews to the board
         for (int i = 0; i < puzzleTVs.size(); i++) {
@@ -120,6 +112,7 @@ public class WordSearchFragmentJDSS extends Fragment {
                         if (puzzleTVs.get(i) == currentTextView) {
                             //if this textview is already selected
                             if (indexIsInSelection(i, currentSelection)) {
+                                //TODO: keep this code in if we want to have backwards letter deselection
                                 //if this textview is the same as the last one selected
                                 if (i == currentSelection.get(currentSelection.size() - 1).intValue()) {
                                     //remove background coloring
@@ -137,32 +130,36 @@ public class WordSearchFragmentJDSS extends Fragment {
                                     //change color to selection color
                                     currentTextView.setBackgroundColor(SELECTION_COLOR);
                                     //if this current selection forms a word
-                                    TextView currentWordBankWord = wordSearchJDSS.findWordInPuzzle(currentSelection);
-                                    if (currentWordBankWord != null) {
-                                        //cross out word
-                                        currentWordBankWord.setPaintFlags(currentWordBankWord.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-                                        //change color of letters in current selection to found word color
-                                        for (int j = 0; j < currentSelection.size(); j++) {
-                                            puzzleTVs.get(currentSelection.get(j).intValue()).setTextColor(FOUND_COLOR);
-                                            puzzleTVs.get(currentSelection.get(j).intValue()).setBackgroundColor(BACKGROUND_COLOR);
+                                    int currentWordBankWordIndex = wordSearchJDSS.findWordIndexInPuzzle(currentSelection);
+                                    if (currentWordBankWordIndex > -1) {
+                                        //get the word from the list of wordbank textviews
+                                        TextView currentWordBankWord = wordBankTVs.get(currentWordBankWordIndex);
+                                        if (currentWordBankWord != null) {
+                                            //cross out word
+                                            currentWordBankWord.setPaintFlags(currentWordBankWord.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                                            //change color of letters in current selection to found word color
+                                            for (int j = 0; j < currentSelection.size(); j++) {
+                                                puzzleTVs.get(currentSelection.get(j).intValue()).setTextColor(FOUND_COLOR);
+                                                puzzleTVs.get(currentSelection.get(j).intValue()).setBackgroundColor(BACKGROUND_COLOR);
+                                            }
+                                            //TODO: whatever else needs to be done when a word is found should be done here
+                                            Toast toast = Toast.makeText(
+                                                    context,
+                                                    wordBankInfoStrings.get(currentWordBankWordIndex),
+                                                    Toast.LENGTH_SHORT);
+                                            toast.show();
+                                            //reset current selection
+                                            currentSelection = new ArrayList<Integer>();
                                         }
-                                        //reset current selection
-                                        currentSelection = new ArrayList<Integer>();
                                     }
                                 }
                                 //else the new selection does not make a line
                                 else {
+                                    //TODO: put code here if we want to delete the entire selection when the user makes a non-line selection
                                     //remove it from the current selection
                                     currentSelection.remove(currentSelection.size() - 1);
                                 }
                             }
-
-
-
-
-                                //else
-                                    //remove newly added index from current selection list
-
                             //break from loop
                             i = puzzleTVs.size();
                         }
