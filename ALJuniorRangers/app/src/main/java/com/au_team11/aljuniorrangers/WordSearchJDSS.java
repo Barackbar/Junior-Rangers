@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by nopenshaw on 3/2/16.
  */
-public class WordSearch {
+public class WordSearchJDSS {
 
     Context context;
 
@@ -17,7 +17,7 @@ public class WordSearch {
     ArrayList<TextView> puzzleTVs;
     ArrayList<TextView> wordBankTVs;
 
-    public WordSearch(Context newContext, ArrayList<String> newPuzzle, ArrayList<String> newWordBank, int newNumColumns){
+    public WordSearchJDSS(Context newContext, ArrayList<String> newPuzzle, ArrayList<String> newWordBank, int newNumColumns){
 
         context = newContext;
 
