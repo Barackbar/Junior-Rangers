@@ -2,6 +2,7 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,16 +24,16 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         //TODO: pass filename for object data in constructor arguments
         if (savedInstanceState == null) {
             //put the main menu on screen
-            //MainMenuFragment mainMenuFragment = new MainMenuFragment();
-            //fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
+            MainMenuFragment mainMenuFragment = new MainMenuFragment();
+            fragmentManager.beginTransaction().add(R.id.activity_main, mainMenuFragment).commit();
 
             //new wordsearch instantiation
             //TODO: put this into the type.equals("wordsearch") part in onParkActivitySelectedListener
-            WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
-            Bundle arguments = new Bundle();
-            arguments.putString(getResources().getString(R.string.AssetBundleKey), "wordsearch_test_jdss.json");
-            wordSearchFragmentJDSS.setArguments(arguments);
-            fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
+            //WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
+            //Bundle arguments = new Bundle();
+            //arguments.putString(getResources().getString(R.string.AssetBundleKey), "wordsearch_test_jdss.json");
+            //wordSearchFragmentJDSS.setArguments(arguments);
+            //fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
         }
     }
 
@@ -112,6 +113,13 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
         else {
             //do nothing
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Log.i("MainActivity", "rC == 1 && rC == R_OK");
         }
     }
 }
