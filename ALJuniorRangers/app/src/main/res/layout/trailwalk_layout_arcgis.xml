@@ -46,4 +46,10 @@
         </LinearLayout>
     </ScrollView>
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView"
+        android:visibility="visible" />
+
 </RelativeLayout>

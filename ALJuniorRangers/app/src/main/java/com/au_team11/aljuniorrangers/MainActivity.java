@@ -135,6 +135,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         Log.i("MainActivity", "oAR");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Log.i("MainActivity", "rC == 1 && rC == R_OK");
+            trailWalkFragment.putPicOnScreen(mCurrentPhotoPath);
         }
     }
 
@@ -163,7 +164,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         File storageDir = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 }

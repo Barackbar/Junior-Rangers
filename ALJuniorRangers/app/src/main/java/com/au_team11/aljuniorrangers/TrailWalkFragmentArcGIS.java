@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -64,6 +67,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //whether the "popup" is active, to allow for popup removal
     Boolean popupActive = false;
 
+    ImageView imageView;
+
     //used to test REST data requests
     //String featureServiceURL0 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/2";
     String featureServiceURL1 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/1";
@@ -106,6 +111,10 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
         //inflate view from layout
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
+
+
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putInt("TRAIL", 25);
@@ -357,5 +366,32 @@ public class TrailWalkFragmentArcGIS extends Fragment {
             return null;
         }
         return json;
+    }
+
+    public void putPicOnScreen(String path) {
+        // Get the dimensions of the View
+        //int targetW = imageView.getWidth();
+        //int targetH = imageView.getHeight();
+
+        // Get the dimensions of the bitmap
+        //BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        //bmOptions.inJustDecodeBounds = true;
+        //BitmapFactory.decodeFile(path, bmOptions);
+        //int photoW = bmOptions.outWidth;
+        //int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        //int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        //bmOptions.inJustDecodeBounds = false;
+        //bmOptions.inSampleSize = scaleFactor;
+
+        mapView.setVisibility(View.INVISIBLE);
+        actionPointPopupContainer.setVisibility(View.INVISIBLE);
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path);
+        imageView.setImageBitmap(bitmap);
+        Log.i("TWFAGIS", "imageView bitmap set: " + imageView.getWidth() + " " + imageView.getHeight());
     }
 }
