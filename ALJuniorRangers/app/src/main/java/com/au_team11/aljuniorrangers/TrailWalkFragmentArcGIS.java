@@ -303,7 +303,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                 if (arrayObject.getString("type").equals("picture")) {
                     newActionPoints.add(
                             new ActionPointPicture(
-                                    activity,
+                                    (CameraRequestListener) activity,
                                     new Point(
                                             jsonArray.getJSONObject(i).getDouble("longitude"),
                                             jsonArray.getJSONObject(i).getDouble("latitude")),
@@ -312,7 +312,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                 else {
                     newActionPoints.add(
                             new ActionPoint(
-                                    activity,
+                                    (CameraRequestListener) activity,
                                     new Point(
                                             jsonArray.getJSONObject(i).getDouble("longitude"),
                                             jsonArray.getJSONObject(i).getDouble("latitude")),

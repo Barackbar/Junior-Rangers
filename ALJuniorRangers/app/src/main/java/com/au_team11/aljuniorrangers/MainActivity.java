@@ -3,14 +3,24 @@ package com.au_team11.aljuniorrangers;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
-public class MainActivity extends Activity implements ParkListener, ParkActivityListener {
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class MainActivity extends Activity implements ParkListener, ParkActivityListener, CameraRequestListener {
 
     TrailWalkFragmentArcGIS trailWalkFragment = null;
 
     FragmentManager fragmentManager;
+
+    String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +126,44 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
     }
 
+    public void requestCamera() {
+        dispatchTakePictureIntent();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i("MainActivity", "oAR");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Log.i("MainActivity", "rC == 1 && rC == R_OK");
         }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (photoFile != null) {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, 1);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        //File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
     }
 }

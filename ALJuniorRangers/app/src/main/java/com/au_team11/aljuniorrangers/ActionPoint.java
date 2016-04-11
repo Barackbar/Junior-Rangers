@@ -11,7 +11,7 @@ import com.esri.core.geometry.Point;
 public class ActionPoint {
 
     //main activity
-    Activity activity;
+    CameraRequestListener activity;
 
     //text to display about point
     String text;
@@ -19,7 +19,7 @@ public class ActionPoint {
     //Location on the map
     Point location;
 
-    public ActionPoint(Activity newActivity, Point newLocation, String newText) {
+    public ActionPoint(CameraRequestListener newActivity, Point newLocation, String newText) {
         //set the activity
         activity = newActivity;
         //set the location
