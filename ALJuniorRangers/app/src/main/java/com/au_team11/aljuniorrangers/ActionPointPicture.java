@@ -29,11 +29,11 @@ public class ActionPointPicture extends ActionPoint {
     String mCurrentPhotoPath;
     File imageFile;
 
-    public ActionPointPicture(Activity newActivity, Point newLocation, String newText) {
+    public ActionPointPicture(Activity newActivity, Point newLocation, String newText, String newFileName) {
         super(newActivity, newLocation, newText);
         pictureTaken = false;
         //create the image file to save into
-        photoFileName = "muhPic";
+        photoFileName = newFileName;
         try {
             imageFile = createImageFile(photoFileName);
         }
@@ -64,20 +64,13 @@ public class ActionPointPicture extends ActionPoint {
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //make sure something can take care of this intent
         if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
-
-            /*
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-            */
-
+            //if the image file was successfully created
             if (imageFile != null) {
+                //put the file in the intent
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
+                //send off the intent
                 activity.startActivityForResult(takePictureIntent, 1);
             }
         }
@@ -85,14 +78,9 @@ public class ActionPointPicture extends ActionPoint {
 
     private File createImageFile(String fileName) throws IOException {
 
-        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        //String imageFileName = "JPEG_" + timeStamp + "_";
-        //File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-
         //create the file
         File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image;
-
 
         if (new File(storageDir.getAbsolutePath() + "/" + fileName + extension).exists()) {
             Log.i("APP", "file already exists");

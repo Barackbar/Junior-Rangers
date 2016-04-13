@@ -66,14 +66,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     TextView actionPointPopup;
     //the above textview container
     ScrollView actionPointPopupContainer;
-    //whether the "popup" is active, to allow for popup removal
-    //Boolean popupActive = false;
     //button used to close the popup
     Button closeWindowButton;
     //button used for actionpointpictures to view the picture, if taken already
     Button viewPictureButton;
     //place to put the picture that was taken
     ImageView imageView;
+    //whether the picture is on scrren or not
+    Boolean picOnScreen = false;
 
     //used to test REST data requests
     //String featureServiceURL0 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/2";
@@ -138,10 +138,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         closeWindowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set everything invisible
                 imageView.setVisibility(View.INVISIBLE);
                 closeWindowButton.setVisibility(View.INVISIBLE);
                 actionPointPopupContainer.setVisibility(View.INVISIBLE);
                 imageView.setVisibility(View.INVISIBLE);
+                //since picture is off screen, needs to reset to show it can be put on screen
+                viewPictureButton.setText("View Picture");
+                picOnScreen = false;
             }
         });
         closeWindowButton.setVisibility(View.INVISIBLE);
@@ -205,19 +209,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
             public void onSingleTap(float x, float y) {
                 //location display manager can't be null for this
                 //this also determines if the map is ready for user interaction
-
-
                 if (locationDisplayManager != null) {
-
-                    //if the popup is active
-                    /*
-                    if (popupActive) {
-                        //make the "popup" disappear
-                        actionPointPopupContainer.setVisibility(View.GONE);
-                        //record that the popup has disappeared
-                        popupActive = false;
-                    }
-                    */
                         //for every defined point
                         for (int i = 0; i < actionPoints.size(); i++) {
 
@@ -257,37 +249,46 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                             //tell the actionpointpicture to check if the picture was taken
                                             ((ActionPointPicture) currentActionPoint).checkIfPictureTaken();
 
-                                            //if the picture file exists
-                                            if (new File(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath).exists()) {
-                                                Log.i("TWFAGIS", "pictureTaken");
-                                                //set the imageview picture to the taken picture
-                                                Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
-                                                imageView.setImageBitmap(bitmap);
-                                                imageView.setVisibility(View.VISIBLE);
+                                            //if the picture is on screen now
+                                            if (picOnScreen) {
+                                                //take the picture off screen
+                                                imageView.setVisibility(View.INVISIBLE);
+                                                //change button text to indicate that it will now put the picture on screen
+                                                viewPictureButton.setText("Show Picture");
+                                                //indicate the picture is not on screen
+                                                picOnScreen = false;
                                             }
-                                            //else it doesn't exist
+                                            //else the picture is not on screen now
                                             else {
-                                                //do stuff
-                                                Log.i("TWFAGIS", "pictureNotTaken");
+                                                //put the picture on screen
+                                                //if the picture file exists
+                                                if (new File(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath).exists()) {
+                                                    Log.i("TWFAGIS", "pictureTaken");
+                                                    //set the imageview picture to the taken picture
+                                                    Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
+                                                    imageView.setImageBitmap(bitmap);
+                                                    imageView.setVisibility(View.VISIBLE);
+                                                    //change button text to indicate that it will now take the picture down
+                                                    viewPictureButton.setText("Hide Picture");
+                                                    //indicate the picture is on screen
+                                                    picOnScreen = true;
+                                                }
+                                                //else it doesn't exist
+                                                else {
+                                                    //do stuff
+                                                    Log.i("TWFAGIS", "pictureNotTaken");
+                                                }
                                             }
 
-                                                    /*
-                                                    //if the picture has been taken after being clicked
-                                                    if (((ActionPointPicture) currentActionPoint).pictureTaken) {
-                                                        Log.i("TWFAGIS", "pictureTaken");
-                                                        //set the imageview picture to the taken picture
-                                                        Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
-                                                        imageView.setImageBitmap(bitmap);
-                                                        imageView.setVisibility(View.VISIBLE);
-                                                    }
-                                                    else {
-                                                        Log.i("TWFAGIS", "pictureNotTaken");
-                                                    }
 
-                                                    */
                                         }
                                     });
                                     viewPictureButton.setVisibility(View.VISIBLE);
+                                }
+                                //else it's a normal action point
+                                else {
+                                    //set the view picture button invisible
+                                    viewPictureButton.setVisibility(View.INVISIBLE);
                                 }
 
 
@@ -295,10 +296,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                 actionPointPopupContainer.setVisibility(View.VISIBLE);
                                 //make the close button visible
                                 closeWindowButton.setVisibility(View.VISIBLE);
-                                //record that the container is visible
-                                //popupActive = true;
 
-                                Log.i("ArcGIS", "click is near point with index" + i);
+                                Log.i("ArcGIS", "click is near point with index " + i);
 
                                 //break from loop after action
                                 i = actionPoints.size();
@@ -373,27 +372,27 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
             //fill newActionPoints with ActionPoints from the json data
             for (int i = 0; i < jsonArray.length(); i++) {
-                //TODO: define types of ActionPoints and add conditionals to this loop
                 //create new ActionPoint using Point generated from JSON file's lat/lon pair
-                JSONObject arrayObject= jsonArray.getJSONObject(i);
+                JSONObject arrayObject = jsonArray.getJSONObject(i);
                 //if the ActionPoint is a picture AP
                 if (arrayObject.getString("type").equals("picture")) {
                     newActionPoints.add(
                             new ActionPointPicture(
                                     activity,
                                     new Point(
-                                            jsonArray.getJSONObject(i).getDouble("longitude"),
-                                            jsonArray.getJSONObject(i).getDouble("latitude")),
-                                    jsonArray.getJSONObject(i).getString("text")));
+                                            arrayObject.getDouble("longitude"),
+                                            arrayObject.getDouble("latitude")),
+                                    arrayObject.getString("text"),
+                                    arrayObject.getString("filename")));
                 }
                 else {
                     newActionPoints.add(
                             new ActionPoint(
                                     activity,
                                     new Point(
-                                            jsonArray.getJSONObject(i).getDouble("longitude"),
-                                            jsonArray.getJSONObject(i).getDouble("latitude")),
-                                    jsonArray.getJSONObject(i).getString("text")));
+                                            arrayObject.getDouble("longitude"),
+                                            arrayObject.getDouble("latitude")),
+                                    arrayObject.getString("text")));
                 }
             }
         }
