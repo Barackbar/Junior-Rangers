@@ -5,6 +5,6 @@ package com.au_team11.aljuniorrangers;
  */
 public interface CameraRequestListener {
 
-    public void requestCamera();
+    public Boolean requestPhotoSuccess();
 
 }

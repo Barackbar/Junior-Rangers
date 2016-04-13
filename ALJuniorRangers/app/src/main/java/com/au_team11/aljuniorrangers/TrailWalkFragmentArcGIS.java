@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
@@ -35,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -65,8 +67,12 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //the above textview container
     ScrollView actionPointPopupContainer;
     //whether the "popup" is active, to allow for popup removal
-    Boolean popupActive = false;
-
+    //Boolean popupActive = false;
+    //button used to close the popup
+    Button closeWindowButton;
+    //button used for actionpointpictures to view the picture, if taken already
+    Button viewPictureButton;
+    //place to put the picture that was taken
     ImageView imageView;
 
     //used to test REST data requests
@@ -125,7 +131,22 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //get the textview container from layout
         actionPointPopupContainer = (ScrollView) view.findViewById(R.id.ActionButtonPopupContainer);
         //set it to GONE to prevent clicks
-        actionPointPopupContainer.setVisibility(View.GONE);
+        actionPointPopupContainer.setVisibility(View.INVISIBLE);
+
+        closeWindowButton = (Button) view.findViewById(R.id.CloseWindowButton);
+        //when clicked, should "close" the info window
+        closeWindowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setVisibility(View.INVISIBLE);
+                closeWindowButton.setVisibility(View.INVISIBLE);
+                actionPointPopupContainer.setVisibility(View.INVISIBLE);
+                imageView.setVisibility(View.INVISIBLE);
+            }
+        });
+        closeWindowButton.setVisibility(View.INVISIBLE);
+
+        viewPictureButton = (Button) view.findViewById(R.id.ViewPictureButton);
 
         //get json file to use
         fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
@@ -189,12 +210,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                 if (locationDisplayManager != null) {
 
                     //if the popup is active
+                    /*
                     if (popupActive) {
                         //make the "popup" disappear
                         actionPointPopupContainer.setVisibility(View.GONE);
                         //record that the popup has disappeared
                         popupActive = false;
                     }
+                    */
                         //for every defined point
                         for (int i = 0; i < actionPoints.size(); i++) {
 
@@ -225,10 +248,55 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                         currentActionPoint.action();
                                     }
                                 });
+
+                                //make the button clickable, based on the currently clicked actionpointpicture
+                                if (currentActionPoint instanceof ActionPointPicture) {
+                                    viewPictureButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            //tell the actionpointpicture to check if the picture was taken
+                                            ((ActionPointPicture) currentActionPoint).checkIfPictureTaken();
+
+                                            //if the picture file exists
+                                            if (new File(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath).exists()) {
+                                                Log.i("TWFAGIS", "pictureTaken");
+                                                //set the imageview picture to the taken picture
+                                                Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
+                                                imageView.setImageBitmap(bitmap);
+                                                imageView.setVisibility(View.VISIBLE);
+                                            }
+                                            //else it doesn't exist
+                                            else {
+                                                //do stuff
+                                                Log.i("TWFAGIS", "pictureNotTaken");
+                                            }
+
+                                                    /*
+                                                    //if the picture has been taken after being clicked
+                                                    if (((ActionPointPicture) currentActionPoint).pictureTaken) {
+                                                        Log.i("TWFAGIS", "pictureTaken");
+                                                        //set the imageview picture to the taken picture
+                                                        Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
+                                                        imageView.setImageBitmap(bitmap);
+                                                        imageView.setVisibility(View.VISIBLE);
+                                                    }
+                                                    else {
+                                                        Log.i("TWFAGIS", "pictureNotTaken");
+                                                    }
+
+                                                    */
+                                        }
+                                    });
+                                    viewPictureButton.setVisibility(View.VISIBLE);
+                                }
+
+
                                 //make the container visible
                                 actionPointPopupContainer.setVisibility(View.VISIBLE);
+                                //make the close button visible
+                                closeWindowButton.setVisibility(View.VISIBLE);
                                 //record that the container is visible
-                                popupActive = true;
+                                //popupActive = true;
 
                                 Log.i("ArcGIS", "click is near point with index" + i);
 
@@ -312,7 +380,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                 if (arrayObject.getString("type").equals("picture")) {
                     newActionPoints.add(
                             new ActionPointPicture(
-                                    (CameraRequestListener) activity,
+                                    activity,
                                     new Point(
                                             jsonArray.getJSONObject(i).getDouble("longitude"),
                                             jsonArray.getJSONObject(i).getDouble("latitude")),
@@ -321,7 +389,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                 else {
                     newActionPoints.add(
                             new ActionPoint(
-                                    (CameraRequestListener) activity,
+                                    activity,
                                     new Point(
                                             jsonArray.getJSONObject(i).getDouble("longitude"),
                                             jsonArray.getJSONObject(i).getDouble("latitude")),
@@ -368,24 +436,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         return json;
     }
 
+    /*
     public void putPicOnScreen(String path) {
-        // Get the dimensions of the View
-        //int targetW = imageView.getWidth();
-        //int targetH = imageView.getHeight();
-
-        // Get the dimensions of the bitmap
-        //BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        //bmOptions.inJustDecodeBounds = true;
-        //BitmapFactory.decodeFile(path, bmOptions);
-        //int photoW = bmOptions.outWidth;
-        //int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        //int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        //bmOptions.inJustDecodeBounds = false;
-        //bmOptions.inSampleSize = scaleFactor;
 
         mapView.setVisibility(View.INVISIBLE);
         actionPointPopupContainer.setVisibility(View.INVISIBLE);
@@ -394,4 +446,5 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         imageView.setImageBitmap(bitmap);
         Log.i("TWFAGIS", "imageView bitmap set: " + imageView.getWidth() + " " + imageView.getHeight());
     }
+    */
 }

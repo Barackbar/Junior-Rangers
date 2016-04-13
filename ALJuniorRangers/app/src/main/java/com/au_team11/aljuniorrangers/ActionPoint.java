@@ -1,6 +1,7 @@
 package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.esri.core.geometry.Point;
@@ -11,7 +12,8 @@ import com.esri.core.geometry.Point;
 public class ActionPoint {
 
     //main activity
-    CameraRequestListener activity;
+    Activity activity;
+    Context context;
 
     //text to display about point
     String text;
@@ -19,9 +21,10 @@ public class ActionPoint {
     //Location on the map
     Point location;
 
-    public ActionPoint(CameraRequestListener newActivity, Point newLocation, String newText) {
+    public ActionPoint(Activity newActivity, Point newLocation, String newText) {
         //set the activity
         activity = newActivity;
+        context = activity.getApplicationContext();
         //set the location
         location = newLocation;
         //set the text

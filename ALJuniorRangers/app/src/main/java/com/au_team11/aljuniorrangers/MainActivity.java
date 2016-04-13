@@ -17,6 +17,8 @@ import java.util.Date;
 public class MainActivity extends Activity implements ParkListener, ParkActivityListener, CameraRequestListener {
 
     TrailWalkFragmentArcGIS trailWalkFragment = null;
+    //used by the actionPointPicture to determine if the picture was successfully taken
+    Boolean trailWalkPictureTaken;
 
     FragmentManager fragmentManager;
 
@@ -26,6 +28,8 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("MainActivity", "onCreate");
+
+        trailWalkPictureTaken = false;
 
         setContentView(R.layout.activity_main);
 
@@ -126,8 +130,11 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
     }
 
-    public void requestCamera() {
-        dispatchTakePictureIntent();
+    public Boolean requestPhotoSuccess() {
+        Boolean returnVal = trailWalkPictureTaken;
+        //reset for next picture
+        trailWalkPictureTaken = false;
+        return returnVal;
     }
 
     @Override
@@ -135,7 +142,8 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         Log.i("MainActivity", "oAR");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Log.i("MainActivity", "rC == 1 && rC == R_OK");
-            trailWalkFragment.putPicOnScreen(mCurrentPhotoPath);
+            //picture was successfully taken
+            trailWalkPictureTaken = true;
         }
     }
 
