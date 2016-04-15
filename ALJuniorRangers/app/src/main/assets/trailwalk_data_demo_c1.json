@@ -19,8 +19,9 @@
     {
       "latitude":"3880949.8",
       "longitude":"-9618517.9",
-      "type":"information",
-      "text":"This is some more information."
+      "type":"picture",
+      "text":"This is some more information.",
+      "filename":"picturefile2"
     },
     {
       "latitude":"3881136.2",

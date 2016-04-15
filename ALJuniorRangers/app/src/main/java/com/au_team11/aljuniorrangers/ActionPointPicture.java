@@ -2,7 +2,6 @@ package com.au_team11.aljuniorrangers;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -12,40 +11,42 @@ import com.esri.core.geometry.Point;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by JDSS on 2/26/16.
  */
 public class ActionPointPicture extends ActionPoint {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
     Boolean pictureTaken;
     String photoFileName;
     String extension = ".jpg";
-    String mCurrentPhotoPath;
+    String pathToDirectory;
+    String pathToFile;
     File imageFile;
 
     public ActionPointPicture(Activity newActivity, Point newLocation, String newText, String newFileName) {
         super(newActivity, newLocation, newText);
-        pictureTaken = false;
-        //create the image file to save into
+        pathToDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
         photoFileName = newFileName;
+        pathToFile = pathToDirectory + "/" + photoFileName + extension;
+        //if this picture exists
+        if (new File(pathToFile).exists())
+            //indicate it exists
+            pictureTaken = true;
+        else
+            pictureTaken = false;
+    }
+
+    public void action() {
+        super.action();
+
         try {
             imageFile = createImageFile(photoFileName);
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public void action() {
-        super.action();
-        //if (activity instanceof CameraRequestListener)
-            //((CameraRequestListener) activity).requestPhotoSuccess();
         dispatchTakePictureIntent();
 
     }
@@ -79,7 +80,7 @@ public class ActionPointPicture extends ActionPoint {
     private File createImageFile(String fileName) throws IOException {
 
         //create the file
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = new File(pathToDirectory);
         File image;
 
         if (new File(storageDir.getAbsolutePath() + "/" + fileName + extension).exists()) {
@@ -95,8 +96,8 @@ public class ActionPointPicture extends ActionPoint {
 
 
         //set the photo path
-        this.mCurrentPhotoPath = image.getAbsolutePath();
-        Log.i("APP", this.mCurrentPhotoPath);
+        this.pathToDirectory = image.getAbsolutePath();
+        Log.i("APP", this.pathToDirectory);
 
         return image;
     }

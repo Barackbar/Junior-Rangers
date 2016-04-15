@@ -14,12 +14,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/infoViewLinearLayout">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/imageView"
+            android:id="@+id/previewImageView"
             android:visibility="invisible"
             android:layout_weight="7" />
 
@@ -66,5 +67,56 @@
             android:id="@+id/CloseWindowButton" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#9f000000"
+        android:id="@+id/picViewLinearLayout"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/viewAllImageView"
+            android:layout_weight="11" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Previous"
+                android:id="@+id/prevPicButton"
+                android:layout_weight="2" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Exit"
+                android:id="@+id/exitViewAllButton"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Next"
+                android:id="@+id/nextPicButton"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View all Pictures"
+        android:id="@+id/viewAllPicsButton"
+        android:layout_alignParentBottom="true"
+        android:visibility="visible" />
 
 </RelativeLayout>

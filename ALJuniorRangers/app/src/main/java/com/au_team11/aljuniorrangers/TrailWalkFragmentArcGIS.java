@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -60,8 +61,9 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     View view;
 
     //popup for normal ActionPoint
-    PopupMenu popup;
+    //PopupMenu popup;
 
+    LinearLayout infoViewLinearLayout;
     //textview where "popup" will dump its info
     TextView actionPointPopup;
     //the above textview container
@@ -69,11 +71,20 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //button used to close the popup
     Button closeWindowButton;
     //button used for actionpointpictures to view the picture, if taken already
-    Button viewPictureButton;
+    Button previewPictureButton;
     //place to put the picture that was taken
-    ImageView imageView;
-    //whether the picture is on scrren or not
+    ImageView previewImageView;
+    //whether the picture is on screen or not
     Boolean picOnScreen = false;
+
+    LinearLayout picViewLinearLayout;
+    Button viewAllPicsButton;
+    Boolean allPicsOnScreen = false;
+    Button nextPicButton;
+    Button exitViewAllButton;
+    Button prevPicButton;
+    ImageView viewAllImageView;
+    int currentIndex = 0;
 
     //used to test REST data requests
     //String featureServiceURL0 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/2";
@@ -119,13 +130,12 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
 
 
-        imageView = (ImageView) view.findViewById(R.id.imageView);
-
 
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putInt("TRAIL", 25);
         editor.commit();
 
+        infoViewLinearLayout = (LinearLayout) view.findViewById(R.id.infoViewLinearLayout);
         //get textview from layout
         actionPointPopup = (TextView) view.findViewById(R.id.ActionButtonPopup);
         //get the textview container from layout
@@ -133,24 +143,157 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //set it to GONE to prevent clicks
         actionPointPopupContainer.setVisibility(View.INVISIBLE);
 
+
+
+        //shows a preview of the picture, if available
+        previewPictureButton = (Button) view.findViewById(R.id.ViewPictureButton);
+
+        //where the image preview will be placed
+        previewImageView = (ImageView) view.findViewById(R.id.previewImageView);
+
+        //closes the information window
         closeWindowButton = (Button) view.findViewById(R.id.CloseWindowButton);
-        //when clicked, should "close" the info window
         closeWindowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //set everything invisible
-                imageView.setVisibility(View.INVISIBLE);
+                previewImageView.setVisibility(View.INVISIBLE);
                 closeWindowButton.setVisibility(View.INVISIBLE);
                 actionPointPopupContainer.setVisibility(View.INVISIBLE);
-                imageView.setVisibility(View.INVISIBLE);
-                //since picture is off screen, needs to reset to show it can be put on screen
-                viewPictureButton.setText("View Picture");
+                previewImageView.setVisibility(View.INVISIBLE);
+                //since picture is off screen, needs to reset to indicate it can be put on screen
+                previewPictureButton.setText("View Picture");
                 picOnScreen = false;
+                //make the view all pics button visible
+                viewAllPicsButton.setVisibility(View.VISIBLE);
             }
         });
         closeWindowButton.setVisibility(View.INVISIBLE);
 
-        viewPictureButton = (Button) view.findViewById(R.id.ViewPictureButton);
+
+
+        //the containing linearlayout
+        picViewLinearLayout = (LinearLayout) view.findViewById(R.id.picViewLinearLayout);
+        picViewLinearLayout.setVisibility(View.INVISIBLE);
+        //button that activates all image preview
+        viewAllPicsButton = (Button) view.findViewById(R.id.viewAllPicsButton);
+        viewAllPicsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //click should put all pictures on screen
+                viewAllImageView.setVisibility(View.VISIBLE);
+                nextPicButton.setVisibility(View.VISIBLE);
+                exitViewAllButton.setVisibility(View.VISIBLE);
+                prevPicButton.setVisibility(View.VISIBLE);
+                //set self invisible, since another button will handle returning to regular screen
+                viewAllPicsButton.setVisibility(View.INVISIBLE);
+                picViewLinearLayout.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //imageview that will hold the image previews
+        viewAllImageView = (ImageView) view.findViewById(R.id.viewAllImageView);
+        //button that will move forward through all the images
+        nextPicButton = (Button) view.findViewById(R.id.nextPicButton);
+        nextPicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //number of points checked, will stop infinite loop
+                int numPointsChecked = 0;
+                //index of the next point to check
+                int i = (currentIndex + 1) % actionPoints.size();
+                //loop through actionpoints, starting with current index
+                while (numPointsChecked < actionPoints.size()) {
+                    //if this is a picture point
+                    ActionPoint currentActionPoint = actionPoints.get(i);
+                    if (currentActionPoint instanceof ActionPointPicture) {
+                        //if its picture has been taken
+                        if (((ActionPointPicture) currentActionPoint).pictureTaken) {
+                            //put the image into the imageview
+                            Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).pathToFile);
+                            viewAllImageView.setImageBitmap(bitmap);
+                            //break from the loop
+                            numPointsChecked = actionPoints.size();
+                            //set current index to this point
+                            currentIndex = i;
+                        }
+                    }
+                    Log.i("nextButton", "" + numPointsChecked);
+                    //indicate we've checked another point
+                    numPointsChecked++;
+                    //if we've just checked the point at the end of the action point list
+                    if (i == actionPoints.size() - 1) {
+                        //loop around to the beginning of the list
+                        i = 0;
+                    }
+                    else {
+                        //check next point
+                        i++;
+                    }
+                }
+            }
+        });
+        //button that will exit the view all window
+        exitViewAllButton = (Button) view.findViewById(R.id.exitViewAllButton);
+        exitViewAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //remove views from screen
+                viewAllImageView.setVisibility(View.INVISIBLE);
+                nextPicButton.setVisibility(View.INVISIBLE);
+                exitViewAllButton.setVisibility(View.INVISIBLE);
+                prevPicButton.setVisibility(View.INVISIBLE);
+                //set view all pictures buton visible again
+                viewAllPicsButton.setVisibility(View.VISIBLE);
+                picViewLinearLayout.setVisibility(View.INVISIBLE);
+            }
+        });
+        //button that will move backward through all the images
+        prevPicButton = (Button) view.findViewById(R.id.prevPicButton);
+        prevPicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //number of points checked, will stop infinite loop
+                int numPointsChecked = 0;
+                //index of the next point to check
+                //NOTE: -n % (k) == -n (where k > n) for some reason,
+                //thus need another way to get index below current one
+                //Solution: (n + (k-1)) % (k) ==
+                int i = (currentIndex + (actionPoints.size() - 1)) % actionPoints.size();
+                Log.i("i: ", "" + i);
+                //loop through actionpoints, starting with current index
+                while (numPointsChecked < actionPoints.size()) {
+                    //if this is a picture point
+                    ActionPoint currentActionPoint = actionPoints.get(i);
+                    if (currentActionPoint instanceof ActionPointPicture) {
+                        //if its picture has been taken
+                        if (((ActionPointPicture) currentActionPoint).pictureTaken) {
+                            //put the image into the imageview
+                            Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).pathToFile);
+                            viewAllImageView.setImageBitmap(bitmap);
+                            //break from the loop
+                            numPointsChecked = actionPoints.size();
+                            //set current index to the next point
+                            currentIndex = i;
+                        }
+                    }
+                    Log.i("prevButton", "" + numPointsChecked);
+                    //indicate we've checked another point
+                    numPointsChecked++;
+                    //if we've just checked the point at the beginning of the action point list
+                    if (i == 0) {
+                        //loop around to the end of the list
+                        i = actionPoints.size() - 1;
+                    }
+                    else {
+                        //check next point down
+                        i--;
+                    }
+                }
+            }
+        });
+
+
 
         //get json file to use
         fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
@@ -241,9 +384,12 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                     }
                                 });
 
+                                //make the view all pics button invisible
+                                viewAllPicsButton.setVisibility(View.INVISIBLE);
+
                                 //make the button clickable, based on the currently clicked actionpointpicture
                                 if (currentActionPoint instanceof ActionPointPicture) {
-                                    viewPictureButton.setOnClickListener(new View.OnClickListener() {
+                                    previewPictureButton.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             //tell the actionpointpicture to check if the picture was taken
@@ -252,9 +398,9 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                             //if the picture is on screen now
                                             if (picOnScreen) {
                                                 //take the picture off screen
-                                                imageView.setVisibility(View.INVISIBLE);
+                                                previewImageView.setVisibility(View.INVISIBLE);
                                                 //change button text to indicate that it will now put the picture on screen
-                                                viewPictureButton.setText("Show Picture");
+                                                previewPictureButton.setText("Show Picture");
                                                 //indicate the picture is not on screen
                                                 picOnScreen = false;
                                             }
@@ -262,14 +408,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                             else {
                                                 //put the picture on screen
                                                 //if the picture file exists
-                                                if (new File(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath).exists()) {
+                                                if (new File(((ActionPointPicture) currentActionPoint).pathToFile).exists()) {
                                                     Log.i("TWFAGIS", "pictureTaken");
                                                     //set the imageview picture to the taken picture
-                                                    Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).mCurrentPhotoPath);
-                                                    imageView.setImageBitmap(bitmap);
-                                                    imageView.setVisibility(View.VISIBLE);
+                                                    Bitmap bitmap = BitmapFactory.decodeFile(((ActionPointPicture) currentActionPoint).pathToFile);
+                                                    previewImageView.setImageBitmap(bitmap);
+                                                    previewImageView.setVisibility(View.VISIBLE);
                                                     //change button text to indicate that it will now take the picture down
-                                                    viewPictureButton.setText("Hide Picture");
+                                                    previewPictureButton.setText("Hide Picture");
                                                     //indicate the picture is on screen
                                                     picOnScreen = true;
                                                 }
@@ -283,12 +429,12 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
                                         }
                                     });
-                                    viewPictureButton.setVisibility(View.VISIBLE);
+                                    previewPictureButton.setVisibility(View.VISIBLE);
                                 }
                                 //else it's a normal action point
                                 else {
                                     //set the view picture button invisible
-                                    viewPictureButton.setVisibility(View.INVISIBLE);
+                                    previewPictureButton.setVisibility(View.INVISIBLE);
                                 }
 
 
@@ -434,16 +580,4 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         }
         return json;
     }
-
-    /*
-    public void putPicOnScreen(String path) {
-
-        mapView.setVisibility(View.INVISIBLE);
-        actionPointPopupContainer.setVisibility(View.INVISIBLE);
-
-        Bitmap bitmap = BitmapFactory.decodeFile(path);
-        imageView.setImageBitmap(bitmap);
-        Log.i("TWFAGIS", "imageView bitmap set: " + imageView.getWidth() + " " + imageView.getHeight());
-    }
-    */
 }
