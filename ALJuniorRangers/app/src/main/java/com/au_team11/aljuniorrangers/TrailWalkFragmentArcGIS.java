@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.esri.android.map.FeatureLayer;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
 import com.esri.android.map.MapView;
@@ -28,6 +30,8 @@ import com.esri.android.map.ags.ArcGISFeatureLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.android.map.event.OnStatusChangedListener;
 import com.esri.android.map.popup.PopupContainer;
+import com.esri.core.geodatabase.Geodatabase;
+import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.SpatialReference;
 import com.esri.core.map.Graphic;
@@ -38,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -92,6 +97,10 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //ArcGISFeatureLayer featureLayer0;
     ArcGISFeatureLayer featureLayer1;
 
+    Geodatabase geodatabase;
+    GeodatabaseFeatureTable geodatabaseFeatureTable;
+    FeatureLayer featureLayer2;
+
     //the map on screen
     MapView mapView;
     PopupContainer popupContainer;
@@ -130,7 +139,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
 
 
-
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putInt("TRAIL", 25);
         editor.commit();
@@ -142,7 +150,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         actionPointPopupContainer = (ScrollView) view.findViewById(R.id.ActionButtonPopupContainer);
         //set it to GONE to prevent clicks
         actionPointPopupContainer.setVisibility(View.INVISIBLE);
-
 
 
         //shows a preview of the picture, if available
@@ -207,6 +214,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                     //if this is a picture point
                     ActionPoint currentActionPoint = actionPoints.get(i);
                     if (currentActionPoint instanceof ActionPointPicture) {
+                        //refresh its decision if the picture is taken
+                        ((ActionPointPicture) currentActionPoint).checkIfPictureTaken();
                         //if its picture has been taken
                         if (((ActionPointPicture) currentActionPoint).pictureTaken) {
                             //put the image into the imageview
@@ -323,9 +332,33 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
         //add REST requested feature layer
         //featureLayer0 = new ArcGISFeatureLayer(featureServiceURL0, ArcGISFeatureLayer.MODE.ONDEMAND);
-        featureLayer1 = new ArcGISFeatureLayer(featureServiceURL1, ArcGISFeatureLayer.MODE.ONDEMAND);
+        //featureLayer1 = new ArcGISFeatureLayer(featureServiceURL1, ArcGISFeatureLayer.MODE.ONDEMAND);
         //mapView.addLayer(featureLayer0);
-        mapView.addLayer(featureLayer1);
+        //mapView.addLayer(featureLayer1);
+
+        try {
+            geodatabase = new Geodatabase(context.getExternalFilesDir(null).getAbsolutePath() + "/servicesdata.geodatabase");
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        geodatabaseFeatureTable = geodatabase.getGeodatabaseTables().get(0);
+        try {
+            featureLayer2 = new FeatureLayer(geodatabaseFeatureTable);
+            Log.i("TWFAGIS num tables", "" + geodatabase.getGeodatabaseTables().size());
+
+            for (long i = 0; i < 123; i++) {
+                if (geodatabaseFeatureTable.checkFeatureExists(i))
+                    featureLayer2.selectFeature(i);
+                    Log.i("TWFAGIS feature exists", "" + i);
+            }
+            Log.i("TWFAGIS num sel feats", "" + featureLayer2.getSelectedFeatures().size());
+            mapView.addLayer(featureLayer2);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         //initialize the GraphicsLayer
         graphicsLayer = new GraphicsLayer();

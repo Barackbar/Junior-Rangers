@@ -52,15 +52,13 @@ public class ActionPointPicture extends ActionPoint {
     }
 
     public void checkIfPictureTaken() {
-        //if the photo was taken successfully
-        if (activity instanceof CameraRequestListener) {
-            Log.i("APP", "activity instanceof CRL");
-            //if the picture has been successfully taken once, it should stay that way
-            pictureTaken = pictureTaken || ((CameraRequestListener) activity).requestPhotoSuccess();
-        }
-        else {
-            Log.i("APP", "activity NOT instanceof CRL");
-        }
+        //if this picture exists
+        if (new File(pathToFile).exists())
+            //indicate it exists
+            pictureTaken = true;
+        else
+            pictureTaken = false;
+
     }
 
     private void dispatchTakePictureIntent() {

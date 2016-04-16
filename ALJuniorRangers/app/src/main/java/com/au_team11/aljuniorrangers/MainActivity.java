@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MainActivity extends Activity implements ParkListener, ParkActivityListener, CameraRequestListener {
+public class MainActivity extends Activity implements ParkListener, ParkActivityListener {
 
     TrailWalkFragmentArcGIS trailWalkFragment = null;
     //used by the actionPointPicture to determine if the picture was successfully taken
@@ -130,20 +130,11 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
     }
 
-    public Boolean requestPhotoSuccess() {
-        Boolean returnVal = trailWalkPictureTaken;
-        //reset for next picture
-        trailWalkPictureTaken = false;
-        return returnVal;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("MainActivity", "oAR");
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Log.i("MainActivity", "rC == 1 && rC == R_OK");
-            //picture was successfully taken
-            trailWalkPictureTaken = true;
         }
     }
 }
