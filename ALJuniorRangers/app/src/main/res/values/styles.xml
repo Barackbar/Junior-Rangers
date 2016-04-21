@@ -11,11 +11,11 @@
 
 
     <!-- Word Search completion splash screen. -->
-    <style name="WS-Theme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="WS_Theme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="WS-Splash-Theme" parent="Theme.AppCompat.NoActionBar">
+    <style name="WS_Splash_Theme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/word_search_splash</item>
     </style>
 
