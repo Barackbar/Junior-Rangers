@@ -55,6 +55,27 @@
     },
     {
       "question": "Face"
+    },
+    {
+      "question": "Which animal part was the first one I clicked today part 2?"
+    },
+    {
+      "question": "Head2"
+    },
+    {
+      "question": "Body2"
+    },
+    {
+      "question": "Legs2"
+    },
+    {
+      "question": "Face2"
+    },
+    {
+      "answer": 1
+    },
+    {
+      "answer": 2
     }
   ]
 }
