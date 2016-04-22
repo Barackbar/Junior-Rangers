@@ -12,8 +12,8 @@
       "type":"wordsearch"
     },
     {
-      "name":"Animal Parts",
-      "filename":"animalparts_data_demo_c1.json",
+      "name":"Deer Parts",
+      "filename":"animalparts_data_demo_c3.json",
       "type":"animalparts"
     },
     {
