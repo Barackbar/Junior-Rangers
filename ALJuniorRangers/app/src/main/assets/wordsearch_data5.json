@@ -1,0 +1,27 @@
+{
+  "name": "Word Search 5",
+  "puzzle": "LIZARDWEGTVYEEHSXZWSPCLIKESXTOWCTETVISOINHENLYPSAKORESGYLSDXCTEVPMKIGEASYTRDSMJH",
+  "columns": 8,
+  "wordbank": [
+    {
+      "word": "PLANT",
+      "info": "A living organism of the kind exemplified by trees, shrubs, herbs, grasses, ferns, and mosses."
+    },
+    {
+      "word": "CREEK",
+      "info": "A stream, brook, or minor tributary of a river."
+    },
+    {
+      "word": "REPTILE",
+      "info": "A cold-blooded vertebrate of a class that includes snakes, lizards, crocodiles, turtles, and tortoises."
+    },
+    {
+      "word": "ECOSYSTEM",
+      "info": "A biological community of interacting organisms and their physical environment."
+    },
+    {
+      "word": "LIZARD",
+      "info": "A reptile that typically has a long body and tail, four legs, movable eyelids, and a rough, scaly, or spiny skin."
+    }
+  ]
+}

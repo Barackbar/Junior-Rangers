@@ -1,0 +1,37 @@
+{
+  "name": "Word Search 6",
+  "puzzle": "
+  NTIULJCV
+  NACVXZAS
+  DSTRWPPL
+  LMKGNJER
+  OYUBRUDS
+  GSFDHANB
+  LKFQOWSJ
+  LPOTVCES
+  TBCABINJ
+  CJXSEFRD",
+  "columns": 8,
+  "wordbank": [
+    {
+      "word": "CABIN",
+      "info": "A small shelter or house, made of wood and situated in a wild or remote area."
+    },
+    {
+      "word": "LOG",
+      "info": "A usually bulky piece or length of a cut or fallen tree."
+    },
+    {
+      "word": "NATURE",
+      "info": "The phenomena of the physical world collectively, including plants, animals, the landscape, and other features."
+    },
+    {
+      "word": "GRASS",
+      "info": "Vegetation consisting of typically short plants with long narrow leaves."
+    },
+    {
+      "word": "TOAD",
+      "info": "A tailless amphibian with a short stout body and short legs, typically having dry warty skin that can exude poison."
+    }
+  ]
+}
