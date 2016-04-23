@@ -1,0 +1,20 @@
+{
+  "name":"Chewacla State Park",
+  "activities":[
+    {
+      "name":"Trail Walk",
+      "filename":"trailwalk_data_demo_c1.json",
+      "type":"trailwalk"
+    },
+    {
+      "name":"Word Search",
+      "filename":"wordsearch_test_jdss.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Deer Parts",
+      "filename":"animalparts_data_demo_c3.json",
+      "type":"animalparts"
+    }
+  ]
+}

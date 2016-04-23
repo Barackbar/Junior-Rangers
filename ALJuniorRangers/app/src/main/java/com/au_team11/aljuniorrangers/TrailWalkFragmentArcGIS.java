@@ -81,10 +81,11 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //layer that holds the trail graphics
     GraphicsLayer trailGraphicsLayer;
 
+    //UNCOMMENT TO GET THE BASEMAP DEFINED IN basemapFileName
     //local basemap
-    ArcGISLocalTiledLayer basemap;
+    //ArcGISLocalTiledLayer basemap;
     //filename
-    String basemapFileName = "sanfrancisco.tpk";
+    //String basemapFileName = "sanfrancisco.tpk";
 
     //trail walk data filename
     String fileName;
@@ -356,10 +357,11 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         });
 
 
+        //UNCOMMENT TO GET THE BASEMAP FROM THE FILE DEFINED IN basemapFileName
         //get the geodatabase
-        basemap = new ArcGISLocalTiledLayer(context.getExternalFilesDir(null).getAbsolutePath() + "/" + basemapFileName);
+        //basemap = new ArcGISLocalTiledLayer(context.getExternalFilesDir(null).getAbsolutePath() + "/" + basemapFileName);
         //put the basemap on the map
-        mapView.addLayer(basemap);
+        //mapView.addLayer(basemap);
 
         try {
             geodatabase = new Geodatabase(context.getExternalFilesDir(null).getAbsolutePath() + "/servicesdata.geodatabase");

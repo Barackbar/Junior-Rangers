@@ -26,6 +26,7 @@ public class ParkFragment extends Fragment {
 
     Spinner spinner;
     Button goButton;
+    Button progressReportButton;
     TextView parkName;
     ArrayAdapter<String> dataAdapter;
     ArrayList<String> categories;
@@ -57,6 +58,7 @@ public class ParkFragment extends Fragment {
         selectedActivity = "";
         spinner = (Spinner) view.findViewById(R.id.spinner);
         goButton = (Button) view.findViewById(R.id.GoButton);
+        progressReportButton = (Button) view.findViewById(R.id.progressReportButton);
         parkName = (TextView) view.findViewById(R.id.ParkName);
 
         // Spinner Drop Down Elements
@@ -96,6 +98,16 @@ public class ParkFragment extends Fragment {
         });
 
         addListenerOnButton();
+
+        //tell the progress report button to send the park's data file to the progress report fragment
+        progressReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //send back the filename this fragment loaded and tell the callback method that it wants the progress report fragment
+                mCallback.onParkActivitySelectedListener(getArguments().getString(getResources().getString(R.string.AssetBundleKey)), "progressreport");
+            }
+        });
+
         return view;
     }
 
