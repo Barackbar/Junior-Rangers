@@ -144,8 +144,7 @@ public class AnimalPartsFragment extends Fragment {
 
         animalPartsView.setPic(pic);
 
-        informationArray = buildInfoArray(jsonData);
-
+        //also builds the info array
         hitboxes = buildHitboxes(jsonData);
 
         questions = buildQuestions(jsonData);
@@ -341,6 +340,9 @@ public class AnimalPartsFragment extends Fragment {
         try {
             //build the hitboxes
             ArrayList<Rect> newHitboxes = new ArrayList<Rect>();
+            //build the info array
+            informationArray = new ArrayList<String>();
+
             JSONObject jsonObject = new JSONObject(jsonData);
             JSONArray jsonArray = jsonObject.getJSONArray("hitboxes");
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -352,9 +354,10 @@ public class AnimalPartsFragment extends Fragment {
                                 arrayObject.getInt("top"),
                                 arrayObject.getInt("right"),
                                 arrayObject.getInt("bottom")));
+
+                //add the new info to the info array
+                informationArray.add(arrayObject.getString("info"));
             }
-
-
 
             return newHitboxes;
         }

@@ -5,38 +5,28 @@
       "left":50,
       "top":5,
       "right":90,
-      "bottom":30
+      "bottom":30,
+      "info": "This is a placeholder for the antlers hitbox"
     },
     {
       "left":15,
       "top":50,
       "right":65,
-      "bottom":75
+      "bottom":75,
+      "info": "This is a placeholder for the torso hitbox"
     },
     {
       "left":10,
       "top":75,
       "right":65,
-      "bottom":100
+      "bottom":100,
+      "info": "This is a placeholder for the legs hitbox"
     },
     {
       "left":65,
       "top":33,
       "right":80,
-      "bottom":50
-    }
-  ],
-  "information":[
-    {
-      "info": "This is a placeholder for the antlers hitbox"
-    },
-    {
-      "info": "This is a placeholder for the torso hitbox"
-    },
-    {
-      "info": "This is a placeholder for the legs hitbox"
-    },
-    {
+      "bottom":50,
       "info":"This is a placeholder for the head hitbox"
     }
   ],
