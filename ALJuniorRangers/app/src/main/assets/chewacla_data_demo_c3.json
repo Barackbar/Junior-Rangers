@@ -8,18 +8,13 @@
     },
     {
       "name":"Word Search",
-      "filename":"wordsearch_data.json",
+      "filename":"wordsearch_test_jdss.json",
       "type":"wordsearch"
     },
     {
       "name":"Deer Parts",
       "filename":"animalparts_data_demo_c3.json",
       "type":"animalparts"
-    },
-    {
-      "name":"Progress Report",
-      "filename":"progressreport_data.json",
-      "type":"progressreport"
     }
   ]
 }

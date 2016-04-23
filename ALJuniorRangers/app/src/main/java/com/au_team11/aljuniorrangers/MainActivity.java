@@ -88,17 +88,16 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
                            .commit();
         }
         else if (type.equals("wordsearch")) {
-            WordSearchFragment wordSearchFragment = new WordSearchFragment();
+            //WordSearchFragment wordSearchFragment = new WordSearchFragment();
 
             //new wordsearch instantiation
-            //WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
-            //fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
-            //Bundle arguments = new Bundle();
-            //arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
-            //wordSearchFragmentJDSS.setArguments(arguments);
+            WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
+            Bundle arguments = new Bundle();
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
+            wordSearchFragmentJDSS.setArguments(arguments);
 
             fragmentManager.beginTransaction()
-                           .replace(R.id.activity_main, wordSearchFragment)
+                           .replace(R.id.activity_main, wordSearchFragmentJDSS)
                            .addToBackStack(null)
                            .commit();
         }

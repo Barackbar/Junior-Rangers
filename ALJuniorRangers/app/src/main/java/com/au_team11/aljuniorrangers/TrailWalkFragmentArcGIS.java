@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
 import com.esri.android.map.MapView;
+import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.android.map.event.OnStatusChangedListener;
 import com.esri.android.map.popup.PopupContainer;
@@ -78,6 +80,12 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     GeodatabaseFeatureTable geodatabaseFeatureTable;
     //layer that holds the trail graphics
     GraphicsLayer trailGraphicsLayer;
+
+    //UNCOMMENT TO GET THE BASEMAP DEFINED IN basemapFileName
+    //local basemap
+    //ArcGISLocalTiledLayer basemap;
+    //filename
+    //String basemapFileName = "sanfrancisco.tpk";
 
     //trail walk data filename
     String fileName;
@@ -349,12 +357,20 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         });
 
 
+        //UNCOMMENT TO GET THE BASEMAP FROM THE FILE DEFINED IN basemapFileName
+        //get the geodatabase
+        //basemap = new ArcGISLocalTiledLayer(context.getExternalFilesDir(null).getAbsolutePath() + "/" + basemapFileName);
+        //put the basemap on the map
+        //mapView.addLayer(basemap);
+
         try {
             geodatabase = new Geodatabase(context.getExternalFilesDir(null).getAbsolutePath() + "/servicesdata.geodatabase");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        //get the trails
         geodatabaseFeatureTable = geodatabase.getGeodatabaseTables().get(0);
         try {
             Log.i("TWFAGIS num tables", "" + geodatabase.getGeodatabaseTables().size());
@@ -364,7 +380,27 @@ public class TrailWalkFragmentArcGIS extends Fragment {
             for (long i = 0; i < 123; i++) {
                 if (geodatabaseFeatureTable.checkFeatureExists(i)) {
                     Log.i("gdb geometry type", geodatabaseFeatureTable.getFeature(i).getGeometry().getType().toString());
-                    trailGraphicsLayer.addGraphic(new Graphic(geodatabaseFeatureTable.getFeature(i).getGeometry(), new SimpleLineSymbol(Color.BLACK, 8)));
+                    trailGraphicsLayer.addGraphic(new Graphic(geodatabaseFeatureTable.getFeature(i).getGeometry(), new SimpleLineSymbol(Color.BLACK, 4)));
+                    Log.i("TWFAGIS feature exists", "" + i);
+                }
+            }
+            mapView.addLayer(trailGraphicsLayer);
+        }
+        catch (TableException e) {
+            e.printStackTrace();
+        }
+
+        //get the boundaries
+        geodatabaseFeatureTable = geodatabase.getGeodatabaseTables().get(1);
+        try {
+            Log.i("TWFAGIS num tables", "" + geodatabase.getGeodatabaseTables().size());
+
+            trailGraphicsLayer = new GraphicsLayer();
+
+            for (long i = 0; i < 150; i++) {
+                if (geodatabaseFeatureTable.checkFeatureExists(i)) {
+                    Log.i("gdb geometry type", geodatabaseFeatureTable.getFeature(i).getGeometry().getType().toString());
+                    trailGraphicsLayer.addGraphic(new Graphic(geodatabaseFeatureTable.getFeature(i).getGeometry(), new SimpleLineSymbol(Color.BLUE, 4)));
                     Log.i("TWFAGIS feature exists", "" + i);
                 }
             }
