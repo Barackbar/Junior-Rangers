@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -24,10 +23,8 @@ import android.widget.TextView;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.LocationDisplayManager;
 import com.esri.android.map.MapView;
-import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.android.map.event.OnStatusChangedListener;
-import com.esri.android.map.popup.PopupContainer;
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
 import com.esri.core.geometry.Point;
@@ -91,6 +88,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     String fileName;
     //Points defined by the JSON file
     ArrayList<ActionPoint> actionPoints;
+    //the index of the currently activated actionpoint, needed due to inner class final variable silliness
+    int currentActionPointIndex;
     //layer that holds the trail point graphics
     GraphicsLayer trailPointGraphicsLayer;
 
@@ -425,6 +424,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                         //for every defined point
                         for (int i = 0; i < actionPoints.size(); i++) {
 
+                            currentActionPointIndex = i;
+
                             //so we don't have to keep calc'ing references
                             final ActionPoint currentActionPoint = actionPoints.get(i);
 
@@ -449,6 +450,10 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                     public void onClick(View v) {
                                         //when clicked, do the described action
                                         currentActionPoint.action();
+                                        //if the point is the last point in the trail
+                                        if (currentActionPointIndex == (actionPoints.size() - 1)) {
+                                            recordCompletion();
+                                        }
                                     }
                                 });
 
@@ -671,5 +676,10 @@ public class TrailWalkFragmentArcGIS extends Fragment {
             return null;
         }
         return json;
+    }
+
+    //records that the activity was completed
+    public void recordCompletion() {
+        //TODO: put code here to record completion
     }
 }
