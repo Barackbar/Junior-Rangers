@@ -418,6 +418,7 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         mapView.setOnSingleTapListener(new OnSingleTapListener() {
             @Override
             public void onSingleTap(float x, float y) {
+
                 //location display manager can't be null for this
                 //this also determines if the map is ready for user interaction
                 if (locationDisplayManager != null) {

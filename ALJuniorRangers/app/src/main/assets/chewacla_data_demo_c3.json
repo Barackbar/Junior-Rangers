@@ -3,7 +3,7 @@
   "activities":[
     {
       "name":"Trail Walk",
-      "filename":"trailwalk_data_demo_c1.json",
+      "filename":"trail_test_demo_c3.json",
       "type":"trailwalk"
     },
     {
