@@ -7,6 +7,7 @@
         android:id="@+id/map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        mapoptions.MapType="TOPO"
         mapoptions.ZoomLevel="14">
     </com.esri.android.map.MapView>
 
