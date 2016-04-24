@@ -57,6 +57,9 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //Parent Activity
     Activity activity;
 
+    //the shared preferences file in which to store progress
+    SharedPreferences.Editor editor;
+
     //used in isNearOnScreen for calculating proximity
     int pxPerDp;
 
@@ -125,13 +128,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     int vAP_CurrentIndex;
 
 
-    //used to test REST data requests
-    //String featureServiceURL0 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/2";
-    //String featureServiceURL1 = "https://conservationgis.alabama.gov/adcnrweb/rest/services/Trails_SLD/MapServer/1";
-    //ArcGISFeatureLayer featureLayer0;
-    //ArcGISFeatureLayer featureLayer1;
-
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -155,10 +151,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
         //inflate view from layout
         view = inflater.inflate(R.layout.trailwalk_layout_arcgis, container, false);
 
-
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putInt("TRAIL", 25);
-        editor.commit();
+        //initialize shared preferences file for editing
+        editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
 
         //get textview from layout
@@ -682,5 +676,9 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     //records that the activity was completed
     public void recordCompletion() {
         //TODO: put code here to record completion
+        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+        //put that this activity was successfully completed
+        editor.putBoolean(fileName, true);
+        editor.commit();
     }
 }
