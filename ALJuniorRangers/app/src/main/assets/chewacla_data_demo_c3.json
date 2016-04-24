@@ -7,8 +7,8 @@
       "type":"trailwalk"
     },
     {
-      "name":"Word Search",
-      "filename":"wordsearch_test_jdss.json",
+      "name":"Word Search 1",
+      "filename":"wordsearch_data1.json",
       "type":"wordsearch"
     },
     {
