@@ -1,36 +1,27 @@
 {
   "name": "Word Search 3",
-  "puzzle": "NDHWYEIFNRHFISNDKSLCPSJEEDJDHUVNDJSKAMDODUJWMNEDLDSGPBLKDMSE",
-  "columns": 6,
-
+  "puzzle": "RIEJNBEFOALNSLVJCDIVNUASKPANJEITNDRFVJASSKTASALKNFVSOYPIKSMDVLRBKAMSNVSDBRANCHMF",
+  "columns": 8,
   "wordbank": [
     {
-      "word": "MORNINGDEW",
-      "info": "Water in the form of droplets that appears on this, exposed objects in the morning or evening due to condensation."
+      "word": "BLUEJAY",
+      "info": "A common North American jay with a blue crest, back, wings, and tail."
     },
     {
-      "word": "RECREATION",
-      "info": "Activity done for enjoyment when one is not working."
+      "word": "RAIN",
+      "info": "Moisture condensed from the atmosphere that falls visibly in separate drops."
     },
     {
-      "word": "PARK",
-      "info": "A large public green area in town, used for recreation."
+      "word": "BRANCH",
+      "info": "A  part of a tree that grows out from the trunk or from a bough."
     },
     {
-      "word": "RANGER",
-      "info": "A keeper of a park, forest, or area of countryside."
+      "word": "ROCK",
+      "info": "The solid mineral material forming part of the surface of the earth and other similar planets, exposed on the surface or underlying the soil or oceans."
     },
     {
-      "word": "REPTILE",
-      "info": "A cold-blooded vertebrate of a class that includes, snakes, lizards, and turtles."
-    },
-    {
-      "word": "PRESERVE",
-      "info": "To maintain something in its original state."
-    },
-    {
-      "word": "BOOT",
-      "info": "A sturdy item of footwear, commonly worn when hiking."
+      "word": "TRAIL",
+      "info": "A mark or a series of signs or objects left behind by the passage of someone or something."
     }
   ]
 }

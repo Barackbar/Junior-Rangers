@@ -77,17 +77,19 @@ public class ProgressReportFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_progress_report, container, false);
-        TextView animalText, trailText, wordText;
+        TextView animalText;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String parkJSON = loadJSONFromAsset("mainmenu_data_demo_c1.json");
-        ArrayList<String> parkList = new ArrayList<String>();
+        String parkJSON = loadJSONFromAsset(getArguments().getString(getResources().getString(R.string.AssetBundleKey)));
+        ArrayList<String> activityNameList = new ArrayList<String>();
+        ArrayList<String> activityKeyList = new ArrayList<String>();
         try
         {
-            JSONArray parkJSONArray = new JSONObject(parkJSON).getJSONArray("array");
+            JSONArray parkJSONArray = new JSONObject(parkJSON).getJSONArray("activities");
             for (int i = 0; i < parkJSONArray.length(); i++)
             {
-                parkList.add(parkJSONArray.getJSONObject(i).getString("file"));
+                activityNameList.add(parkJSONArray.getJSONObject(i).getString("name"));
+                activityKeyList.add(parkJSONArray.getJSONObject(i).getString("filename"));
             }
         }
         catch (JSONException e)
@@ -99,19 +101,34 @@ public class ProgressReportFragment extends Fragment
         ArrayList<String> activityList = new ArrayList<String>();
         int completed = 0;
         int incomplete = 0;
-        for (String park : parkList)
+        for (int i = 0; i < activityNameList.size(); i++)
         {
-            String activitiesJSON = loadJSONFromAsset(park);
+            //add whether the activity is completed or not
+            Boolean isComplete = preferences.getBoolean(activityKeyList.get(i), false);
+            progressText += activityNameList.get(i) + ":\t\t";
+            if (isComplete)
+            {
+                progressText += "Complete!\n";
+                completed++;
+            } else
+            {
+                progressText += "X\n";
+                incomplete++;
+            }
+
+
+
+/*
             try
             {
                 JSONArray activitiesJSONArray = new JSONObject(activitiesJSON).getJSONArray("activities");
-                for (int i = 0; i < activitiesJSONArray.length(); i++)
+                for (int j = 0; j < activitiesJSONArray.length(); j++)
                 {
-                    String activityFile = activitiesJSONArray.getJSONObject(i).getString("filename");
+                    String activityFile = activitiesJSONArray.getJSONObject(j).getString("filename");
                     if (!activityFile.contains("progress"))
                     {
                         boolean isComplete = preferences.getBoolean(activityFile, false);
-                        String activityName = activitiesJSONArray.getJSONObject(i).getString("name");
+                        String activityName = activitiesJSONArray.getJSONObject(j).getString("name");
                         progressText += activityName + ":\t\t";
                         if (isComplete)
                         {
@@ -129,6 +146,7 @@ public class ProgressReportFragment extends Fragment
             {
                 e.printStackTrace();
             }
+            */
         }
 
         animalText = (TextView) view.findViewById(R.id.animalPartsCompletion);

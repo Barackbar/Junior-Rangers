@@ -1,14 +1,6 @@
 package com.au_team11.aljuniorrangers;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,12 +21,13 @@ import java.io.InputStream;
 import java.lang.Override;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ParkFragment extends Fragment {
 
     Spinner spinner;
     Button goButton;
+    Button progressReportButton;
+    TextView parkName;
     ArrayAdapter<String> dataAdapter;
     ArrayList<String> categories;
     String selectedActivity;
@@ -65,12 +58,13 @@ public class ParkFragment extends Fragment {
         selectedActivity = "";
         spinner = (Spinner) view.findViewById(R.id.spinner);
         goButton = (Button) view.findViewById(R.id.GoButton);
+        progressReportButton = (Button) view.findViewById(R.id.progressReportButton);
+        parkName = (TextView) view.findViewById(R.id.ParkName);
 
         // Spinner Drop Down Elements
         categories = new ArrayList<String>();
 
         //Place Holder Elements till JSON is figured out
-        //TODO JSON Stuff/possibly delimit string for different activities.
         activitiesPopulation = populateSpinner(getArguments().getString(getResources().getString(R.string.AssetBundleKey)));
         //extract values from JSONArray
         try {
@@ -103,11 +97,21 @@ public class ParkFragment extends Fragment {
             }
         });
 
-        addListnerOnButton();
+        addListenerOnButton();
+
+        //tell the progress report button to send the park's data file to the progress report fragment
+        progressReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //send back the filename this fragment loaded and tell the callback method that it wants the progress report fragment
+                mCallback.onParkActivitySelectedListener(getArguments().getString(getResources().getString(R.string.AssetBundleKey)), "progressreport");
+            }
+        });
+
         return view;
     }
 
-    private void addListnerOnButton() {
+    private void addListenerOnButton() {
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +128,8 @@ public class ParkFragment extends Fragment {
         try {
             //create new JSON Object
             JSONObject jsonObject = new JSONObject(jsonString);
+            //add park name to the view
+            parkName.setText(jsonObject.getString("name"));
             JSONArray activitiesArray = jsonObject.getJSONArray("activities");
             sendArray = activitiesArray;
         }
