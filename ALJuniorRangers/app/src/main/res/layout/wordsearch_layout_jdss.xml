@@ -7,13 +7,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         android:id="@+id/scrollViewBoard"
-        android:layout_weight="70">
+        android:layout_weight="75">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#faebd7">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -73,16 +75,30 @@
         </LinearLayout>
     </ScrollView>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wordBankTitle"
+        android:text="@string/WordBankTitleText"
+        android:textSize="28sp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:background="#b0e0e6"
+        android:gravity="center"
+        android:layout_weight="3"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         android:id="@+id/scrollViewBank"
-        android:layout_weight="30">
+        android:layout_weight="22">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#b0e0e6">
 
             <LinearLayout
                 android:orientation="vertical"

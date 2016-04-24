@@ -30,7 +30,7 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
             //TODO: put this into the type.equals("wordsearch") part in onParkActivitySelectedListener
             WordSearchFragmentJDSS wordSearchFragmentJDSS = new WordSearchFragmentJDSS();
             Bundle arguments = new Bundle();
-            arguments.putString(getResources().getString(R.string.AssetBundleKey), "wordsearch_test_jdss.json");
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), "wordsearch_data.json");
             wordSearchFragmentJDSS.setArguments(arguments);
             fragmentManager.beginTransaction().add(R.id.activity_main, wordSearchFragmentJDSS).commit();
         }

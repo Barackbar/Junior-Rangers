@@ -34,6 +34,7 @@ public class WordSearchJDSS {
         wordBankTVs = new ArrayList<TextView>();
         wordBankInfoStrings = new ArrayList<String>();
 
+
         generateWordSearch(JSONFileName);
 
         numColumns = newNumColumns;
@@ -140,13 +141,12 @@ public class WordSearchJDSS {
         return puzzleTVs;
     }
 
-    public ArrayList<TextView> getWordBankTVs() {
-        return wordBankTVs;
-    }
+    public ArrayList<TextView> getWordBankTVs() { return wordBankTVs; }
 
     public ArrayList<String> getWordBankInfoStrings() {
         return wordBankInfoStrings;
     }
+
 
     public void setWordBankInfoStrings(ArrayList<String> wordBankInfoStrings) {
         this.wordBankInfoStrings = wordBankInfoStrings;
