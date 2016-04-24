@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
@@ -12,9 +13,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.graphics.drawable.ColorDrawable;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 
 import java.util.ArrayList;
 
@@ -27,9 +35,10 @@ public class WordSearchFragmentJDSS extends Fragment {
     public static final int NUM_COLUMNS_BANK = 2;
 
     //these colors are in RGB mode
-    public static final int BACKGROUND_COLOR = Color.rgb(255, 255, 255);
+    public static final int BACKGROUND_COLOR = Color.parseColor("#faebd7"); //OLD = Color.rgb(255, 255, 255);
     public static final int SELECTION_COLOR = Color.rgb(187,255,255);
-    public static final int FOUND_COLOR = Color.rgb(153,51,0);
+    public static final int FOUND_COLOR = Color.parseColor("#006400"); //OLD = Color.rgb(153,51,0);
+    public static final int DOUBLE_FOUND_COLOR = Color.RED;
 
     Context context;
     View view;
@@ -43,6 +52,9 @@ public class WordSearchFragmentJDSS extends Fragment {
 
     //the currently selected indices on the board
     ArrayList<Integer> currentSelection;
+
+    int wordsLeft;
+    int totalWords;
 
     LinearLayout boardCol0;
     LinearLayout boardCol1;
@@ -98,12 +110,16 @@ public class WordSearchFragmentJDSS extends Fragment {
         wordBankTVs = wordSearchJDSS.getWordBankTVs();
         wordBankInfoStrings = wordSearchJDSS.getWordBankInfoStrings();
 
+        totalWords = wordBankTVs.size();
+        wordsLeft = totalWords;
+
         //add textviews to the board
         for (int i = 0; i < puzzleTVs.size(); i++) {
             final TextView currentTextView = puzzleTVs.get(i);
             currentTextView.setTextColor(Color.BLACK);
             currentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             currentTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+            currentTextView.setBackgroundColor(BACKGROUND_COLOR);
             currentTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,15 +155,32 @@ public class WordSearchFragmentJDSS extends Fragment {
                                             currentWordBankWord.setPaintFlags(currentWordBankWord.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                                             //change color of letters in current selection to found word color
                                             for (int j = 0; j < currentSelection.size(); j++) {
-                                                puzzleTVs.get(currentSelection.get(j).intValue()).setTextColor(FOUND_COLOR);
+                                                //If the letter is a solution to another word
+                                                if(puzzleTVs.get(currentSelection.get(j).intValue()).getCurrentTextColor() == FOUND_COLOR)
+                                                {
+                                                    puzzleTVs.get(currentSelection.get(j).intValue()).setTextColor(DOUBLE_FOUND_COLOR);
+                                                }
+                                                else {
+                                                    puzzleTVs.get(currentSelection.get(j).intValue()).setTextColor(FOUND_COLOR);
+                                                }
                                                 puzzleTVs.get(currentSelection.get(j).intValue()).setBackgroundColor(BACKGROUND_COLOR);
+                                                puzzleTVs.get(currentSelection.get(j).intValue()).setTypeface(Typeface.DEFAULT_BOLD);
                                             }
                                             //TODO: whatever else needs to be done when a word is found should be done here
-                                            Toast toast = Toast.makeText(
+                                            Toast.makeText(context, "Guess Found! Crossing out word!", Toast.LENGTH_SHORT).show();
+                                            wordsLeft--;
+
+                                            //Checks to see if there are 0 wordsLeft.
+                                            checkWin();
+
+                                            /*Toast toast = Toast.makeText(
                                                     context,
                                                     wordBankInfoStrings.get(currentWordBankWordIndex),
                                                     Toast.LENGTH_SHORT);
-                                            toast.show();
+                                            toast.show();*/
+
+
+
                                             //reset current selection
                                             currentSelection = new ArrayList<Integer>();
                                         }
@@ -157,7 +190,22 @@ public class WordSearchFragmentJDSS extends Fragment {
                                 else {
                                     //TODO: put code here if we want to delete the entire selection when the user makes a non-line selection
                                     //remove it from the current selection
-                                    currentSelection.remove(currentSelection.size() - 1);
+                                    //currentSelection.remove(currentSelection.size() - 1);
+
+                                    //Iterate through the TextViews in the Current Selection and
+                                    //change colors back to what they were before.
+                                    for (int i2 = 0; i2 < currentSelection.size(); i2++) {
+                                        TextView temp = puzzleTVs.get(currentSelection.get(i2).intValue());
+                                        //ColorDrawable cd = (ColorDrawable) temp.getBackground();
+                                        //int colorCode = cd.getColor();
+                                        if(temp.getCurrentTextColor() == FOUND_COLOR) {
+                                            temp.setBackgroundColor(BACKGROUND_COLOR);
+                                        } else {
+                                            temp.setBackgroundColor(BACKGROUND_COLOR);
+                                        }
+                                    }
+                                    //Clear current selection
+                                    currentSelection = new ArrayList<Integer>();
                                 }
                             }
                             //break from loop
@@ -199,9 +247,58 @@ public class WordSearchFragmentJDSS extends Fragment {
             currentTextView.setTextColor(Color.BLACK);
             currentTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
             currentTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+            //Checks if there is an info string for the word, and sets it as error field if so
+            //Grabbed later for pop up info through getError()
+            if(i < wordBankInfoStrings.size()) {
+                currentTextView.setError(wordBankInfoStrings.get(i), null);
+            }
             currentTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    TextView tv = (TextView) v;
+                    //Creating the instance of PopupMenu
+                    //PopupMenu popup = new PopupMenu(ctx, tv);
+                    //Inflating the Popup using xml file
+                    //popup.getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+
+
+                    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View popupView = layoutInflater.inflate(R.layout.popup_window, null);
+                    TextView popupText = (TextView) popupView.findViewById(R.id.popuptv);
+
+                    final PopupWindow popupWindow = new PopupWindow(
+                            popupView,
+                            RadioGroup.LayoutParams.MATCH_PARENT,
+                            RadioGroup.LayoutParams.MATCH_PARENT);
+
+                    popupWindow.setSplitTouchEnabled(false);
+                    popupWindow.setFocusable(true);
+
+                    TextView word = (TextView) popupView.findViewById(R.id.word);
+                    word.setText(tv.getText());
+
+                    TextView wordInfo = (TextView) popupView.findViewById(R.id.popuptv);
+                    wordInfo.setText(tv.getError());
+
+                    Button disButton = (Button) popupView.findViewById(R.id.disButton);
+                    disButton.setOnClickListener(new Button.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+
+                    Toast.makeText(context, "You Clicked : " + tv.getText(), Toast.LENGTH_SHORT).show();
+
+                    //registering popup with OnMenuItemClickListener
+                    //popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    //    public boolean onMenuItemClick(MenuItem item) {
+                    //        return true;
+                    //    }
+                    //});
+
+                    popupWindow.showAtLocation(tv, Gravity.FILL, 10, 10); //showing popup menu
 
                 }
             });
@@ -246,6 +343,13 @@ public class WordSearchFragmentJDSS extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+    /*
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //    finish();
+
+    }*/
 
     public static Boolean indexIsInSelection(int index, ArrayList<Integer> indexSelection) {
         for (int i = 0; i < indexSelection.size(); i++) {
@@ -255,4 +359,50 @@ public class WordSearchFragmentJDSS extends Fragment {
         }
         return false;
     }
+
+    public void checkWin()
+    {
+        if(wordsLeft == 0) {
+            System.out.println("Congratulations, you've won the word search!");
+            Toast.makeText(context, "Congratulations, you've won the word search!", Toast.LENGTH_SHORT).show();
+
+            //Creating the AlertDialog.Builder and attaching it to the MainActivity
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle("Congratulations! Puzzle Complete!");
+            builder.setMessage("Would you like to review your puzzle or select a new activity? " +
+                    "(Press the back button at the bottom of the device to return while reviewing.)");
+
+            //Creating New Activity button and setting listener
+            builder.setPositiveButton("New Activity", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing but close the dialog
+
+                    dialog.dismiss();
+                    getActivity().onBackPressed();
+                }
+
+            });
+            //Creating Review Puzzle button and setting listener
+            builder.setNegativeButton("Review Puzzle", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Do nothing
+                    dialog.dismiss();
+                }
+            });
+
+           builder.show();
+
+        }
+        else {
+            System.out.println("Doing great! You've got " + wordsLeft + " words left.");
+            Toast.makeText(context, "Doing great! You've got " + wordsLeft + " words left.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
 }

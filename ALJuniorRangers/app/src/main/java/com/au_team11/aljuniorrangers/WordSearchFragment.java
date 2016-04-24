@@ -157,7 +157,7 @@ public class WordSearchFragment extends Fragment {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
 
-                        //TODO: Handle touches to show animation, another view, or pop up screen
+                        //TODO: Handle touches to show pop up screen
                         if (event.getAction() == MotionEvent.ACTION_DOWN) {
                             TextView tv = (TextView) v;
                             //Creating the instance of PopupMenu
@@ -406,8 +406,6 @@ public class WordSearchFragment extends Fragment {
         }
         return json;
     }
-
-
 
 
     /*
