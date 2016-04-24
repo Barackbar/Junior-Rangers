@@ -119,6 +119,9 @@ public class MainActivity extends Activity implements ParkListener, ParkActivity
         }
         else if (type.equals("progressreport")) {
             ProgressReportFragment progressReportFragment = new ProgressReportFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString(getResources().getString(R.string.AssetBundleKey), fileName);
+            progressReportFragment.setArguments(arguments);
             fragmentManager.beginTransaction()
                     .replace(R.id.activity_main, progressReportFragment)
                     .addToBackStack(null)

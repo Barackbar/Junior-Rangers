@@ -35,6 +35,8 @@ public class AnimalPartsFragment extends Fragment {
     Activity mCallback;
     Context context;
 
+    SharedPreferences.Editor editor;
+
     View view;
 
     AnimalPartsView animalPartsView;
@@ -96,6 +98,9 @@ public class AnimalPartsFragment extends Fragment {
             ((ViewGroup) view.getParent()).removeView(view);
             return view;
         }
+
+        //initialize shared preferences file for editing
+        editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
 
         view = inflater.inflate(R.layout.animalparts_layout, container, false);
         view.setBackgroundColor(0xFF606000);
@@ -249,6 +254,12 @@ public class AnimalPartsFragment extends Fragment {
                     default:
                         break;
                 }
+
+                //if that was the last question, meaning they completed the quiz
+                if (currentQuestion == questions.size()) {
+                    //tell the progress report they completed the quiz
+                    updateStatusReport();
+                }
             }
         });
 
@@ -276,11 +287,13 @@ public class AnimalPartsFragment extends Fragment {
             }
         });
 
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putInt("ANIMAL", 100);
-        editor.commit();
-
         return view;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        pic.recycle();
     }
 
     //credit goes to GrlsHu on StackOverflow
@@ -434,5 +447,7 @@ public class AnimalPartsFragment extends Fragment {
 
     public void updateStatusReport() {
         //Dannial do your stuff here
+        editor.putBoolean(filename, true);
+        editor.commit();
     }
 }
