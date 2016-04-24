@@ -1,0 +1,27 @@
+{
+  "name": "Word Search 4",
+  "puzzle": "FKLDVLSDOSJKWATJRSLNINWSEKLALDSKSJFVDSORTPJALCTUVCIJIAINSLKDFPSVSDKBEEQWSIVYJRAV",
+  "columns": 8,
+  "wordbank": [
+    {
+      "word": "FOREST",
+      "info": "A large area covered chiefly with trees and undergrowth."
+    },
+    {
+      "word": "WILDLIFE",
+      "info": "Wild animals collectively; the native fauna (and sometimes flora) of a region."
+    },
+    {
+      "word": "IVY",
+      "info": "A woody evergreen Eurasian climbing plant, typically having shiny, dark green five-pointed leaves."
+    },
+    {
+      "word": "LANDSCAPE",
+      "info": "All the visible features of an area of countryside or land, often considered in terms of their aesthetic appeal."
+    },
+    {
+      "word": "SPIDER",
+      "info": "An eight-legged predatory arachnid."
+    }
+  ]
+}

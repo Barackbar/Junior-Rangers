@@ -1,0 +1,40 @@
+{
+  "name":"Chewacla State Park",
+  "activities":[
+    {
+      "name":"Trail Walk",
+      "filename":"trail_test_demo_c3.json",
+      "type":"trailwalk"
+    },
+    {
+      "name":"Word Search 0",
+      "filename":"wordsearch_data.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Word Search 1",
+      "filename":"wordsearch_data1.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Word Search 2",
+      "filename":"wordsearch_data2.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Word Search 3",
+      "filename":"wordsearch_data3.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Deer Parts",
+      "filename":"animalparts_data_demo_c3.json",
+      "type":"animalparts"
+    },
+    {
+      "name":"Ant Parts",
+      "filename":"animalparts_data_ant_c3.json",
+      "type":"animalparts"
+    }
+  ]
+}

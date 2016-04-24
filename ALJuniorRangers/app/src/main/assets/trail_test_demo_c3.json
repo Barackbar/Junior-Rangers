@@ -1,0 +1,39 @@
+{
+  "name":"trail test c3",
+  "latitude":3843068.394022667,
+  "longitude":-9516421.67330196,
+  "actionpoints":[
+    {
+      "latitude":3843068.394022667,
+      "longitude":-9516421.67330196,
+      "type":"picture",
+      "text":"Click this text to take a picture of something around you, like a squirrel.",
+      "filename":"picturefile"
+    },
+    {
+      "latitude":3843063.2584099886,
+      "longitude":-9516411.640942309,
+      "type":"information",
+      "text":"This is a lot of information, it might even take up too much of the screen. There's a point at which we should stop, but let's keep going and see what happens."
+    },
+    {
+      "latitude":3843037.4609137448,
+      "longitude":-9516410.327180926,
+      "type":"picture",
+      "text":"This is some more information. Click this text to take a picture of something.",
+      "filename":"picturefile2"
+    },
+    {
+      "latitude":3842995.6594152013,
+      "longitude":-9516411.76037516,
+      "type":"information",
+      "text":"This is the next to last point on the trail."
+    },
+    {
+      "latitude":3842986.9408169333,
+      "longitude":-9516421.733579697,
+      "type":"information",
+      "text":"This is the last point on the trail."
+    }
+  ]
+}
