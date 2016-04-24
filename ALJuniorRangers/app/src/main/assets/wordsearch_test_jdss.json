@@ -1,0 +1,54 @@
+{
+  "name": "JDSS test wordsearch",
+  "puzzle": "CZZZZZZZZHZZZZZZZZEZLZZTZZZWEZZRZZZMAPLEZZZZFCZEZZZZZZLZZZZZZZZAXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  "wordbank": [
+    {
+      "word": "Tree",
+      "info": "Forests are filled with these."
+    },
+    {
+      "word": "Maple",
+      "info":"A type of tree that can be tapped for syrup."
+    },
+    {
+      "word": "Leaf",
+      "info": "These things grow from tree branches and absorb light to make food."
+    },
+    {
+      "word": "Chewacla",
+      "info": "The Alabama State Park located closest to Auburn University."
+    },
+    {
+      "word": "word0",
+      "info": "word0 description."
+    },
+    {
+      "word": "word1",
+      "info": "word1 description."
+    },
+    {
+      "word": "word2",
+      "info": "word2 description."
+    },
+    {
+      "word": "word3",
+      "info": "word3 description."
+    },
+    {
+      "word": "word4",
+      "info": "word4 description."
+    },
+    {
+      "word": "word5",
+      "info": "word5 description."
+    },
+    {
+      "word": "word6",
+      "info": "word6 description."
+    },
+    {
+      "word": "word7",
+      "info": "word7 description."
+    }
+  ]
+}
