@@ -176,14 +176,6 @@ public class WordSearchFragmentJDSS extends Fragment {
                                             //Checks to see if there are 0 wordsLeft.
                                             checkWin();
 
-                                            /*Toast toast = Toast.makeText(
-                                                    context,
-                                                    wordBankInfoStrings.get(currentWordBankWordIndex),
-                                                    Toast.LENGTH_SHORT);
-                                            toast.show();*/
-
-
-
                                             //reset current selection
                                             currentSelection = new ArrayList<Integer>();
                                         }
@@ -292,15 +284,6 @@ public class WordSearchFragmentJDSS extends Fragment {
                         }
                     });
 
-                    Toast.makeText(context, "You Clicked : " + tv.getText(), Toast.LENGTH_SHORT).show();
-
-                    //registering popup with OnMenuItemClickListener
-                    //popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    //    public boolean onMenuItemClick(MenuItem item) {
-                    //        return true;
-                    //    }
-                    //});
-
                     popupWindow.showAtLocation(tv, Gravity.FILL, 10, 10); //showing popup menu
 
                 }
@@ -399,7 +382,6 @@ public class WordSearchFragmentJDSS extends Fragment {
 
             builder.show();
 
-            String filename;
             SharedPreferences.Editor editor;
 
             editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
@@ -409,7 +391,6 @@ public class WordSearchFragmentJDSS extends Fragment {
 
         }
         else {
-            System.out.println("Doing great! You've got " + wordsLeft + " words left.");
             Toast.makeText(context, "Doing great! You've got " + wordsLeft + " words left.", Toast.LENGTH_SHORT).show();
         }
     }
