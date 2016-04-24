@@ -3,6 +3,8 @@ package com.au_team11.aljuniorrangers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,7 +12,17 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 
 /**
@@ -68,17 +80,70 @@ public class ProgressReportFragment extends Fragment
         TextView animalText, trailText, wordText;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        int num = preferences.getInt("ANIMAL", 0);
+        String parkJSON = loadJSONFromAsset("mainmenu_data_demo_c1.json");
+        ArrayList<String> parkList = new ArrayList<String>();
+        try
+        {
+            JSONArray parkJSONArray = new JSONObject(parkJSON).getJSONArray("array");
+            for (int i = 0; i < parkJSONArray.length(); i++)
+            {
+                parkList.add(parkJSONArray.getJSONObject(i).getString("file"));
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        String progressText = "";
+        ArrayList<String> activityList = new ArrayList<String>();
+        int completed = 0;
+        int incomplete = 0;
+        for (String park : parkList)
+        {
+            String activitiesJSON = loadJSONFromAsset(park);
+            try
+            {
+                JSONArray activitiesJSONArray = new JSONObject(activitiesJSON).getJSONArray("activities");
+                for (int i = 0; i < activitiesJSONArray.length(); i++)
+                {
+                    String activityFile = activitiesJSONArray.getJSONObject(i).getString("filename");
+                    if (!activityFile.contains("progress"))
+                    {
+                        boolean isComplete = preferences.getBoolean(activityFile, false);
+                        String activityName = activitiesJSONArray.getJSONObject(i).getString("name");
+                        progressText += activityName + ":\t\t";
+                        if (isComplete)
+                        {
+                            progressText += "Complete!\n";
+                            completed++;
+                        } else
+                        {
+                            progressText += "X\n";
+                            incomplete++;
+                        }
+                    }
+                }
+            }
+            catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         animalText = (TextView) view.findViewById(R.id.animalPartsCompletion);
-        animalText.append(num + "% Completed");
+        animalText.append(progressText);
 
-        num = preferences.getInt("TRAIL", 0);
-        animalText = (TextView) view.findViewById(R.id.trailWalkCompletion);
-        animalText.append(num + "% Completed");
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.progress);
+        ProgressBar mProgress = (ProgressBar) view.findViewById(R.id.progressbar);
+        int percentCompleted = Math.round(100 * completed / (incomplete + completed));
+        mProgress.setProgress(percentCompleted);
+        mProgress.setMax(100);
+        mProgress.setProgressDrawable(drawable);
 
-        num = preferences.getInt("WORD", 0);
-        animalText = (TextView) view.findViewById(R.id.wordSearchCompletion);
-        animalText.append(num + "% Completed");
+        TextView progText = (TextView) view.findViewById(R.id.progresstext);
+        progText.append(percentCompleted + "%");
 
         // Inflate the layout for this fragment
         return view;
@@ -122,4 +187,23 @@ public class ProgressReportFragment extends Fragment
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    //credit goes to GrlsHu on StackOverflow
+    //returns a json string from the asset file
+    public String loadJSONFromAsset(String fileName) {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
 }
