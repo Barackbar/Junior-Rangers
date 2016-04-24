@@ -20,6 +20,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import android.graphics.drawable.ColorDrawable;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -394,7 +397,15 @@ public class WordSearchFragmentJDSS extends Fragment {
                 }
             });
 
-           builder.show();
+            builder.show();
+
+            String filename;
+            SharedPreferences.Editor editor;
+
+            editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+            fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
+            editor.putBoolean(fileName, true);
+            editor.commit();
 
         }
         else {
