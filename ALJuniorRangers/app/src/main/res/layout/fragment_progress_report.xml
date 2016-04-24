@@ -10,29 +10,50 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/wordSearchCompletion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/word"
-        android:textColor="#000000"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/ParkTitle"
+            android:id="@+id/title"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="48sp"
+            android:layout_marginBottom="12dp"
+            android:textColor="#000000"
+            android:textIsSelectable="true" />
 
-    <TextView
-        android:id="@+id/trailWalkCompletion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/trail"
-        android:textColor="#000000"
-        />
+        <TextView
+            android:id="@+id/animalPartsCompletion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/animal"
+            android:textColor="#000000"
+            />
 
-    <TextView
-        android:id="@+id/animalPartsCompletion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/animal"
-        android:textColor="#000000"
-        />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp" >
+            <ProgressBar
+                android:id="@+id/progressbar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/progresstext"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/progressbar"
+                android:layout_alignRight="@+id/progressbar"
+                android:layout_alignTop="@+id/progressbar"
+                android:gravity="center"
+                android:textAlignment="center"
+                />
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>
