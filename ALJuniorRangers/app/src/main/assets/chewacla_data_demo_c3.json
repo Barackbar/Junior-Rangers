@@ -15,6 +15,11 @@
       "name":"Deer Parts",
       "filename":"animalparts_data_demo_c3.json",
       "type":"animalparts"
+    },
+    {
+      "name":"Ant Parts",
+      "filename":"animalparts_data_ant_c3.json",
+      "type":"animalparts"
     }
   ]
 }

@@ -1,0 +1,114 @@
+{
+  "image":"ant",
+  "hitboxes":[
+    {
+      "left":18,
+      "top":35,
+      "right":45,
+      "bottom":55,
+      "info": "The head of the ant. This holds the eyes and other important stuff."
+    },
+    {
+      "left":5,
+      "top":5,
+      "right":35,
+      "bottom":30,
+      "info": "The antennae of the ant. These let the ant smell things."
+    },
+    {
+      "left":25,
+      "top":55,
+      "right":45,
+      "bottom":100,
+      "info": "The legs of the ant. It has six of these and they let the ant move."
+    },
+    {
+      "left":40,
+      "top":45,
+      "right":75,
+      "bottom":75,
+      "info":"This is the thorax of the ant. This holds stuff that the person writing this information unfortunately does not know about."
+    },
+    {
+      "left":75,
+      "top":55,
+      "right":95,
+      "bottom":90,
+      "info":"This is the abdomen of the ant. This holds the heart of the ant because of biological reasons."
+    }
+  ],
+  "quiz":[
+    {
+      "question": "Which part contains the ant's brain?",
+      "choices": [
+        {
+          "choice":"Head"
+        },
+        {
+          "choice": "Torso"
+        },
+        {
+          "choice": "Legs"
+        },
+        {
+          "choice": "Antlers"
+        }
+      ],
+      "answer":0
+    },
+    {
+      "question": "Which part lets the ant move?",
+      "choices": [
+        {
+          "choice":"Antennae"
+        },
+        {
+          "choice": "Thorax"
+        },
+        {
+          "choice": "Legs"
+        },
+        {
+          "choice": "Head"
+        }
+      ],
+      "answer":2
+    },
+    {
+      "question": "Which part holds the heart?",
+      "choices": [
+        {
+          "choice":"Thorax"
+        },
+        {
+          "choice": "Antennae"
+        },
+        {
+          "choice": "Abdomen"
+        },
+        {
+          "choice": "Head"
+        }
+      ],
+      "answer":2
+    },
+    {
+      "question": "Which part is the creator not knowledgeable on?",
+      "choices": [
+        {
+          "choice":"Thorax"
+        },
+        {
+          "choice": "Antennae"
+        },
+        {
+          "choice": "Head"
+        },
+        {
+          "choice": "Abdomen"
+        }
+      ],
+      "answer":0
+    }
+  ]
+}
