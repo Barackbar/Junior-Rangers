@@ -675,8 +675,6 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
     //records that the activity was completed
     public void recordCompletion() {
-        //TODO: put code here to record completion
-        fileName = getArguments().getString(getResources().getString(R.string.AssetBundleKey));
         //put that this activity was successfully completed
         editor.putBoolean(fileName, true);
         editor.commit();
