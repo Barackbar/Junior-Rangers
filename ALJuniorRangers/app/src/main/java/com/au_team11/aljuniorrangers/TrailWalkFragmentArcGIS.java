@@ -456,12 +456,13 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                                     public void onClick(View v) {
                                         //when clicked, do the described action
                                         currentActionPoint.action();
-                                        //if the point is the last point in the trail
-                                        if (currentActionPointIndex == (actionPoints.size() - 1)) {
-                                            recordCompletion();
-                                        }
                                     }
                                 });
+
+                                //if the point is the last point in the trail
+                                if (currentActionPointIndex == (actionPoints.size() - 1)) {
+                                    recordCompletion();
+                                }
 
                                 //make the button clickable, based on the currently clicked actionpointpicture
                                 if (currentActionPoint instanceof ActionPointPicture) {
