@@ -1,40 +1,32 @@
 {
   "name": "Word Search 1",
-  "puzzle": "TMCDEFRBADEFEBCPEFEBCDLFSCCDEEAHCDEFAECDEFAWCDEFAACDEFACCDEFALLEAFAACDEF",
-  "columns": 6,
+  "puzzle": "JWROBRAIFAYJNJMWUTLUOECNTESEKPZBCRHASIIXOFODPRVRJAJEDIBKRLHIKLNRILNUVIVAIGCBXOHB",
+  "columns": 8,
 
   "wordbank": [
     {
-      "word": "TREE",
-      "info": "Forests care filled with these."
+      "word": "Birding",
+      "info": "The observation of birds in their natural habitats as a hobby."
     },
     {
-      "word": "MAPLE",
-      "info":"A type of tree that can be tapped for syrup."
+      "word": "Oak",
+      "info": "A type of tree that bears acorns as fruit."
     },
     {
-      "word": "LEAF",
-      "info": "These things grow from tree branches and absorb light to make food."
+      "word": "Waterfall",
+      "info": "A cascade of water falling from a height."
     },
     {
-      "word": "CHEWACLA",
-      "info": "The Alabama State Park located closest to Auburn University."
+      "word": "Hike",
+      "info": "Walking for a long distance, especially in the woods or countryside."
     },
     {
-      "word": "TREES",
-      "info": "Forests care filled with these. The second of the set in the word bank, plural."
+      "word": "Arbor",
+      "info": "Latin for 'tree' (i.e. Arbor Day)."
     },
     {
-      "word": "MAPLES",
-      "info":"A type of tree that can be tapped for syrup. The second of the set in the word bank, plural."
-    },
-    {
-      "word": "LEAFS",
-      "info": "These things grow from tree branches and absorb light to make food. The second of the set in the word bank, plural."
-    },
-    {
-      "word": "CHEWACLAS",
-      "info": "The Alabama State Park located closest to Auburn University. The second of the set in the word bank, plural."
+      "word": "Bark",
+      "info": "The tough outer sheath of a tree."
     }
   ]
 }

@@ -1,0 +1,26 @@
+{
+  "name":"Cheaha State Park",
+  "activities":[
+    {
+      "name":"Word Search 0",
+      "filename":"wordsearch_data.json",
+      "type":"wordsearch"
+    },
+
+    {
+      "name":"Word Search 4",
+      "filename":"wordsearch_data4.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Word Search 6",
+      "filename":"wordsearch_data6.json",
+      "type":"wordsearch"
+    },
+    {
+      "name":"Ant Parts",
+      "filename":"animalparts_data_ant_c3.json",
+      "type":"animalparts"
+    }
+  ]
+}

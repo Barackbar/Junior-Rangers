@@ -1,56 +1,28 @@
 {
   "name": "Word Search 2",
-  "puzzle": "ALWKDNCJBIDJWUEYRBSALZMSNDOFIGPSOENQMDCNVHEUWYSDPQANXJZMEDOE",
-  "columns": 6,
+  "puzzle": "MDHWYRQJOPARKEVERBNDKCPONROSJRZDIAJOHELRNNDJTAYBGGDODTJADEMNEIASERSGPOEDWKDMSNOL",
+  "columns": 8,
 
   "wordbank": [
     {
-      "word": "BIRDING",
-      "info": "The observation of birds in their natural habitats as a hobby."
+      "word": "MORNINGDEW",
+      "info": "Water in the form of droplets that appears on this, exposed objects in the morning or evening due to condensation."
     },
     {
-      "word": "OAK",
-      "info": "A type of tree that bears acorns as fruit."
+      "word": "RECREATION",
+      "info": "Activity done for enjoyment when one is not working."
     },
     {
-      "word": "WATERFALL",
-      "info": "A cascade of water falling from a height."
+      "word": "PARK",
+      "info": "A large public green area in town, used for recreation."
     },
     {
-      "word": "HIKING",
-      "info": "Walking for a long distance, especially in the woods or countryside."
+      "word": "RANGER",
+      "info": "A keeper of a park, forest, or area of countryside."
     },
     {
-      "word": "ARBOR",
-      "info": "Latin for 'tree' (i.e. Arbor Day)."
-    },
-    {
-      "word": "BARK",
-      "info": "The tough outer sheath of a tree."
-    },
-    {
-      "word": "SPIDER",
-      "info": "An eight-legged predatory arachnid."
-    },
-    {
-      "word": "POISONIVY",
-      "info": "A plant that secretes an irritant oli which can cause dermatitis."
-    },
-    {
-      "word": "FOREST",
-      "info": "A large area covered mostly with trees and overgrowth."
-    },
-    {
-      "word": "ECOLOGY",
-      "info": "The branch of biology that deals with the relations of organisms to one another and to their physical surroundings."
-    },
-    {
-      "word": "BIOLOGY",
-      "info": "The study of living organisms, divided into many specialized fields, such as ecology."
-    },
-    {
-      "word": "TRAIL",
-      "info": "A beaten path through rough country, such as a forest or moor."
+      "word": "BOOT",
+      "info": "A sturdy item of footwear, commonly worn when hiking."
     }
   ]
 }
