@@ -115,38 +115,6 @@ public class ProgressReportFragment extends Fragment
                 progressText += "X\n";
                 incomplete++;
             }
-
-
-
-/*
-            try
-            {
-                JSONArray activitiesJSONArray = new JSONObject(activitiesJSON).getJSONArray("activities");
-                for (int j = 0; j < activitiesJSONArray.length(); j++)
-                {
-                    String activityFile = activitiesJSONArray.getJSONObject(j).getString("filename");
-                    if (!activityFile.contains("progress"))
-                    {
-                        boolean isComplete = preferences.getBoolean(activityFile, false);
-                        String activityName = activitiesJSONArray.getJSONObject(j).getString("name");
-                        progressText += activityName + ":\t\t";
-                        if (isComplete)
-                        {
-                            progressText += "Complete!\n";
-                            completed++;
-                        } else
-                        {
-                            progressText += "X\n";
-                            incomplete++;
-                        }
-                    }
-                }
-            }
-            catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            */
         }
 
         animalText = (TextView) view.findViewById(R.id.animalPartsCompletion);
