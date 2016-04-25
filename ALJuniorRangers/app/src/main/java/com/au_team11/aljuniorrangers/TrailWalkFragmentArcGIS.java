@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -551,6 +552,24 @@ public class TrailWalkFragmentArcGIS extends Fragment {
     public void onStop() {
         super.onStop();
         locationDisplayManager.stop();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Bitmap temp;
+        if (iV_PreviewPicImageView.getDrawable() != null) {
+            temp = ((BitmapDrawable) iV_PreviewPicImageView.getDrawable()).getBitmap();
+            if (temp != null) {
+                temp.recycle();
+            }
+        }
+        if (vAP_ImageView.getDrawable() != null) {
+            temp = ((BitmapDrawable) vAP_ImageView.getDrawable()).getBitmap();
+            if (temp != null) {
+                temp.recycle();
+            }
+        }
     }
 
     //returns true if the two points are within a square with side length toleranceDP of each other

@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -145,7 +146,10 @@ public class AnimalPartsFragment extends Fragment {
 
         int picID = context.getResources().getIdentifier(picName, "drawable", context.getPackageName());
 
-        pic = BitmapFactory.decodeResource(mCallback.getApplicationContext().getResources(), picID);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+
+        pic = BitmapFactory.decodeResource(mCallback.getApplicationContext().getResources(), picID, options);
 
         animalPartsView.setPic(pic);
 
@@ -289,6 +293,7 @@ public class AnimalPartsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.i("APF", "onDetatch");
         pic.recycle();
     }
 

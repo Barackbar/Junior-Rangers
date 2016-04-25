@@ -25,7 +25,7 @@ import java.util.ArrayList;
  */
 public class MainMenuFragment extends Fragment {
 
-    public static final String MAINMENU_DATA = "mainmenu_data_demo_c1.json";
+    public static final String MAINMENU_DATA = "mainmenu_data.json";
     public static final String PARKARRAY_KEY = "array";
     public static final String PARKNAME_KEY = "name";
     public static final String PARKFILE_KEY = "file";
