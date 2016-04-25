@@ -3,6 +3,10 @@
     {
       "name":"Chewacla",
       "file":"chewacla_data_demo_c3.json"
+    },
+    {
+      "name":"Cheaha",
+      "file":"cheaha_data_demo_c3.json"
     }
   ]
 }

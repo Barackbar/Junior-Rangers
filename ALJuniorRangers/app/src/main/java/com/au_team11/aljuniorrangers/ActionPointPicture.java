@@ -26,7 +26,7 @@ public class ActionPointPicture extends ActionPoint {
 
     public ActionPointPicture(Activity newActivity, Point newLocation, String newText, String newFileName) {
         super(newActivity, newLocation, newText);
-        pathToDirectory = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath();
+        pathToDirectory = context.getExternalFilesDir(null).getAbsolutePath();
         photoFileName = newFileName;
         pathToFile = pathToDirectory + "/" + photoFileName + extension;
         //if this picture exists

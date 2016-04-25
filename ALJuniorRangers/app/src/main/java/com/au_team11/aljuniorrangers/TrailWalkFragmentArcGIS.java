@@ -321,8 +321,8 @@ public class TrailWalkFragmentArcGIS extends Fragment {
                     new Graphic(
                             actionPoints.get(i).getLocation(),
                             new SimpleMarkerSymbol(
-                                    Color.RED,
-                                    10,
+                                    Color.rgb(158, 5, 0),
+                                    16,
                                     SimpleMarkerSymbol.STYLE.CIRCLE)));
         }
 
@@ -372,9 +372,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
             for (long i = 0; i < 123; i++) {
                 if (geodatabaseFeatureTable.checkFeatureExists(i)) {
-                    Log.i("gdb geometry type", geodatabaseFeatureTable.getFeature(i).getGeometry().getType().toString());
-                    trailGraphicsLayer.addGraphic(new Graphic(geodatabaseFeatureTable.getFeature(i).getGeometry(), new SimpleLineSymbol(Color.BLACK, 4)));
-                    Log.i("TWFAGIS feature exists", "" + i);
+                    trailGraphicsLayer.addGraphic(
+                            new Graphic(
+                                    geodatabaseFeatureTable
+                                            .getFeature(i)
+                                            .getGeometry(),
+                                    new SimpleLineSymbol(
+                                            Color.rgb(89, 87, 84),
+                                            4)));
                 }
             }
             mapView.addLayer(trailGraphicsLayer);
@@ -392,9 +397,14 @@ public class TrailWalkFragmentArcGIS extends Fragment {
 
             for (long i = 0; i < 150; i++) {
                 if (geodatabaseFeatureTable.checkFeatureExists(i)) {
-                    Log.i("gdb geometry type", geodatabaseFeatureTable.getFeature(i).getGeometry().getType().toString());
-                    trailGraphicsLayer.addGraphic(new Graphic(geodatabaseFeatureTable.getFeature(i).getGeometry(), new SimpleLineSymbol(Color.BLUE, 4)));
-                    Log.i("TWFAGIS feature exists", "" + i);
+                    trailGraphicsLayer.addGraphic(
+                            new Graphic(
+                                    geodatabaseFeatureTable
+                                            .getFeature(i)
+                                            .getGeometry(),
+                                    new SimpleLineSymbol(
+                                            Color.argb(125, 0, 125, 79),
+                                            4)));
                 }
             }
             mapView.addLayer(trailGraphicsLayer);

@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         mapoptions.MapType="TOPO"
-        mapoptions.ZoomLevel="14">
+        mapoptions.ZoomLevel="15">
     </com.esri.android.map.MapView>
 
     <LinearLayout

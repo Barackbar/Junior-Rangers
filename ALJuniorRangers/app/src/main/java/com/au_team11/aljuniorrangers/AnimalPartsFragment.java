@@ -200,7 +200,6 @@ public class AnimalPartsFragment extends Fragment {
                             isCorrectText.setVisibility(View.VISIBLE);
                             currentQuestion++;
                             correctAnswers++;
-                            choice0.setChecked(false);
                             initializeQuestion();
                         }
                         //else an incorrect choice is selected
@@ -215,7 +214,6 @@ public class AnimalPartsFragment extends Fragment {
                             isCorrectText.setVisibility(View.VISIBLE);
                             currentQuestion++;
                             correctAnswers++;
-                            choice1.setChecked(false);
                             initializeQuestion();
                         }
                         else {
@@ -229,7 +227,6 @@ public class AnimalPartsFragment extends Fragment {
                             isCorrectText.setVisibility(View.VISIBLE);
                             currentQuestion++;
                             correctAnswers++;
-                            choice2.setChecked(false);
                             initializeQuestion();
                         }
                         else {
@@ -243,7 +240,6 @@ public class AnimalPartsFragment extends Fragment {
                             isCorrectText.setVisibility(View.VISIBLE);
                             currentQuestion++;
                             correctAnswers++;
-                            choice3.setChecked(false);
                             initializeQuestion();
                         }
                         else {
