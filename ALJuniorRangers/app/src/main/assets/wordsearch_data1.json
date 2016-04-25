@@ -1,31 +1,31 @@
 {
-  "name": "Word Search 2",
+  "name": "Word Search 1",
   "puzzle": "JWROBRAIFAYJNJMWUTLUOECNTESEKPZBCRHASIIXOFODPRVRJAJEDIBKRLHIKLNRILNUVIVAIGCBXOHB",
   "columns": 8,
 
   "wordbank": [
     {
-      "word": "BIRDING",
+      "word": "Birding",
       "info": "The observation of birds in their natural habitats as a hobby."
     },
     {
-      "word": "OAK",
+      "word": "Oak",
       "info": "A type of tree that bears acorns as fruit."
     },
     {
-      "word": "WATERFALL",
+      "word": "Waterfall",
       "info": "A cascade of water falling from a height."
     },
     {
-      "word": "HIKE",
+      "word": "Hike",
       "info": "Walking for a long distance, especially in the woods or countryside."
     },
     {
-      "word": "ARBOR",
+      "word": "Arbor",
       "info": "Latin for 'tree' (i.e. Arbor Day)."
     },
     {
-      "word": "BARK",
+      "word": "Bark",
       "info": "The tough outer sheath of a tree."
     }
   ]
